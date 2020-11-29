@@ -1,0 +1,149 @@
+region,estimate,median,mean,sd,lower_90,lower_50,lower_20,upper_20,upper_50,upper_90,metric,Expected change in daily cases
+non-pilot,3871 (2297 -- 6141),3871,4016,1204,2297,3197,3624,4170,4667,6141,New confirmed cases by infection date,Increasing
+ruzomberok,313 (123 -- 835),313,376,256,123,219,275,359,457,835,New confirmed cases by infection date,Increasing
+pilot,293 (76 -- 919),293,373,310,76,178,244,353,471,919,New confirmed cases by infection date,Likely increasing
+zilina,275 (93 -- 710),275,322,211,93,187,240,315,399,710,New confirmed cases by infection date,Likely increasing
+martin,269 (75 -- 1011),269,379,466,75,165,225,322,440,1011,New confirmed cases by infection date,Increasing
+sabinov,208 (34 -- 791),208,284,283,34,111,166,257,363,791,New confirmed cases by infection date,Likely increasing
+prievidza,189 (75 -- 466),189,220,136,75,131,166,215,268,466,New confirmed cases by infection date,Likely increasing
+bratislava,171 (125 -- 266),171,181,47,125,151,163,181,201,266,New confirmed cases by infection date,Increasing
+nitra,162 (58 -- 385),162,185,119,58,121,145,181,217,385,New confirmed cases by infection date,Increasing
+kosice,158 (74 -- 320),158,173,81,74,118,141,175,212,320,New confirmed cases by infection date,Likely increasing
+tvrdosin,138 (23 -- 644),138,226,470,23,73,111,171,247,644,New confirmed cases by infection date,Likely increasing
+poprad,132 (55 -- 276),132,144,77,55,94,116,147,176,276,New confirmed cases by infection date,Increasing
+presov,120 (43 -- 324),120,144,100,43,82,104,140,178,324,New confirmed cases by infection date,Likely increasing
+banovce,106 (14 -- 479),106,159,198,14,52,82,136,194,479,New confirmed cases by infection date,Unsure
+banska_bystrica,103 (44 -- 211),103,112,53,44,75,92,116,139,211,New confirmed cases by infection date,Increasing
+liptovsky_mikulas,99 (19 -- 296),99,123,97,19,54,80,124,168,296,New confirmed cases by infection date,Likely increasing
+cadca,95 (13 -- 462),95,150,180,13,47,71,126,191,462,New confirmed cases by infection date,Likely increasing
+trencin,91 (34 -- 206),91,103,61,34,64,79,103,127,206,New confirmed cases by infection date,Unsure
+topolcany,86 (27 -- 211),86,98,70,27,59,75,96,118,211,New confirmed cases by infection date,Increasing
+brezno,83 (23 -- 256),83,104,87,23,51,70,100,132,256,New confirmed cases by infection date,Likely increasing
+trnava,78 (31 -- 162),78,86,45,31,55,69,88,106,162,New confirmed cases by infection date,Likely increasing
+kosice_okolie,75 (31 -- 179),75,87,53,31,53,66,85,106,179,New confirmed cases by infection date,Increasing
+povazska_bystrica,72 (22 -- 195),72,88,74,22,48,62,84,108,195,New confirmed cases by infection date,Increasing
+dunajska_streda,71 (24 -- 219),71,92,82,24,47,61,83,108,219,New confirmed cases by infection date,Likely increasing
+vranov,69 (15 -- 284),69,101,116,15,39,55,85,120,284,New confirmed cases by infection date,Unsure
+spiska_nv,58 (10 -- 283),58,94,127,10,30,46,73,108,283,New confirmed cases by infection date,Unsure
+kysocke_nove_mesto,56 (14 -- 193),56,73,66,14,34,46,67,91,193,New confirmed cases by infection date,Unsure
+stara_lubovna,56 (18 -- 146),56,66,52,18,37,49,63,78,146,New confirmed cases by infection date,Likely increasing
+komarno,53 (12 -- 328),53,102,170,12,29,41,69,109,328,New confirmed cases by infection date,Likely increasing
+namestovo,53 (9 -- 269),53,89,133,9,26,40,70,106,269,New confirmed cases by infection date,Unsure
+senec,53 (23 -- 179),53,71,58,23,36,46,62,84,179,New confirmed cases by infection date,Likely increasing
+ilava,52 (21 -- 142),52,62,42,21,36,45,59,74,142,New confirmed cases by infection date,Likely increasing
+partizanske,52 (14 -- 135),52,61,46,14,35,45,60,75,135,New confirmed cases by infection date,Likely increasing
+rimavska,52 (18 -- 176),52,71,78,18,34,44,61,81,176,New confirmed cases by infection date,Likely increasing
+humenne,51 (11 -- 219),51,77,91,11,28,41,63,93,219,New confirmed cases by infection date,Likely increasing
+skalica,49 (12 -- 182),49,69,80,12,28,40,61,85,182,New confirmed cases by infection date,Likely increasing
+hlohovec,47 (20 -- 88),47,49,23,20,35,42,51,59,88,New confirmed cases by infection date,Increasing
+poltar,47 (10 -- 234),47,77,107,10,25,37,59,88,234,New confirmed cases by infection date,Increasing
+senica,47 (13 -- 130),47,57,45,13,30,40,55,71,130,New confirmed cases by infection date,Likely increasing
+galanta,46 (19 -- 118),46,54,35,19,32,40,52,65,118,New confirmed cases by infection date,Likely increasing
+kezmarok,46 (13 -- 123),46,54,43,13,29,39,53,67,123,New confirmed cases by infection date,Likely increasing
+dolny_kubin,45 (8 -- 199),45,66,75,8,22,35,56,83,199,New confirmed cases by infection date,Unsure
+nove_zamky,45 (13 -- 224),45,74,96,13,27,37,56,82,224,New confirmed cases by infection date,Likely increasing
+nove_mesto_nv,44 (11 -- 255),44,83,148,11,25,35,56,87,255,New confirmed cases by infection date,Unsure
+pezinok,43 (13 -- 100),43,48,29,13,29,37,49,61,100,New confirmed cases by infection date,Likely increasing
+bardejov,41 (8 -- 163),41,59,83,8,22,32,51,71,163,New confirmed cases by infection date,Unsure
+puchov,38 (8 -- 129),38,50,54,8,23,32,45,60,129,New confirmed cases by infection date,Likely increasing
+michalovce,37 (6 -- 152),37,53,60,6,20,29,45,64,152,New confirmed cases by infection date,Unsure
+snina,37 (11 -- 105),37,45,37,11,25,32,42,53,105,New confirmed cases by infection date,Increasing
+zvolen,36 (20 -- 68),36,39,16,20,29,33,39,45,68,New confirmed cases by infection date,Increasing
+velky_krtis,35 (4 -- 138),35,51,75,4,17,27,44,61,138,New confirmed cases by infection date,Likely increasing
+levice,34 (16 -- 78),34,39,22,16,25,30,37,46,78,New confirmed cases by infection date,Increasing
+malacky,33 (17 -- 57),33,35,13,17,26,30,35,40,57,New confirmed cases by infection date,Increasing
+piestany,33 (13 -- 72),33,37,20,13,24,30,37,44,72,New confirmed cases by infection date,Likely increasing
+svidnik,31 (4 -- 212),31,64,128,4,14,23,41,67,212,New confirmed cases by infection date,Unsure
+gelnica,30 (4 -- 109),30,42,61,4,15,24,37,51,109,New confirmed cases by infection date,Likely increasing
+bytca,29 (9 -- 101),29,39,40,9,19,25,35,47,101,New confirmed cases by infection date,Likely increasing
+lucenec,28 (1 -- 175),28,54,104,1,9,19,42,67,175,New confirmed cases by infection date,Unsure
+levoca,26 (1 -- 221),26,59,106,1,9,17,38,67,221,New confirmed cases by infection date,Likely increasing
+turcianske_teplice,26 (9 -- 82),26,34,32,9,17,22,30,39,82,New confirmed cases by infection date,Increasing
+trebisov,24 (6 -- 83),24,31,29,6,14,20,28,38,83,New confirmed cases by infection date,Unsure
+revuca,23 (7 -- 93),23,35,49,7,14,19,28,38,93,New confirmed cases by infection date,Likely increasing
+stropkov,20 (2 -- 167),20,49,118,2,8,14,28,48,167,New confirmed cases by infection date,Unsure
+detva,19 (5 -- 61),19,25,28,5,12,16,23,29,61,New confirmed cases by infection date,Likely increasing
+zarnovica,14 (3 -- 39),14,17,14,3,9,12,16,20,39,New confirmed cases by infection date,Increasing
+medzilaborce,8 (1 -- 38),8,13,14,1,4,6,11,16,38,New confirmed cases by infection date,Unsure
+myjava,8 (0 -- 72),8,21,83,0,3,6,11,19,72,New confirmed cases by infection date,Unsure
+roznava,8 (1 -- 31),8,11,12,1,4,6,10,14,31,New confirmed cases by infection date,Unsure
+sala,8 (3 -- 18),8,9,12,3,5,7,9,10,18,New confirmed cases by infection date,Increasing
+zlate_moravce,8 (1 -- 37),8,12,15,1,4,6,10,15,37,New confirmed cases by infection date,Unsure
+krupina,7 (1 -- 35),7,12,23,1,4,6,9,13,35,New confirmed cases by infection date,Likely increasing
+sobrance,7 (1 -- 30),7,10,13,1,4,5,9,13,30,New confirmed cases by infection date,Unsure
+ziar_nh,6 (1 -- 21),6,8,7,1,3,5,7,10,21,New confirmed cases by infection date,Unsure
+poltar,2 (1.2 -- 3.5),2,2.1,0.7,1.2,1.6,1.8,2.2,2.5,3.5,Effective reproduction no.,Increasing
+revuca,1.7 (1.2 -- 2.6),1.7,1.8,0.5,1.2,1.5,1.6,1.8,2,2.6,Effective reproduction no.,Likely increasing
+rimavska,1.7 (1.3 -- 2.7),1.7,1.8,0.5,1.3,1.5,1.7,1.8,2,2.7,Effective reproduction no.,Likely increasing
+turcianske_teplice,1.7 (1.2 -- 2.4),1.7,1.7,0.4,1.2,1.5,1.6,1.8,1.9,2.4,Effective reproduction no.,Increasing
+bytca,1.6 (1.1 -- 2.3),1.6,1.7,0.4,1.1,1.4,1.5,1.7,1.9,2.3,Effective reproduction no.,Likely increasing
+kysocke_nove_mesto,1.6 (0.9 -- 2.2),1.6,1.6,0.4,0.9,1.3,1.5,1.7,1.8,2.2,Effective reproduction no.,Unsure
+ruzomberok,1.6 (1.2 -- 2.1),1.6,1.7,0.3,1.2,1.5,1.6,1.7,1.8,2.1,Effective reproduction no.,Increasing
+komarno,1.5 (0.9 -- 2.9),1.5,1.7,0.6,0.9,1.2,1.4,1.7,2,2.9,Effective reproduction no.,Likely increasing
+martin,1.5 (0.9 -- 2.4),1.5,1.6,0.5,0.9,1.3,1.4,1.6,1.8,2.4,Effective reproduction no.,Increasing
+nove_mesto_nv,1.5 (1 -- 2.9),1.5,1.7,0.6,1,1.3,1.4,1.7,2,2.9,Effective reproduction no.,Unsure
+partizanske,1.5 (0.8 -- 1.9),1.5,1.4,0.3,0.8,1.2,1.4,1.5,1.6,1.9,Effective reproduction no.,Likely increasing
+zilina,1.5 (1 -- 1.9),1.5,1.5,0.3,1,1.3,1.4,1.5,1.6,1.9,Effective reproduction no.,Likely increasing
+banovce,1.4 (0.6 -- 2.2),1.4,1.4,0.5,0.6,1,1.2,1.5,1.7,2.2,Effective reproduction no.,Unsure
+brezno,1.4 (0.9 -- 2),1.4,1.4,0.3,0.9,1.2,1.3,1.5,1.6,2,Effective reproduction no.,Likely increasing
+hlohovec,1.4 (1 -- 1.6),1.4,1.3,0.2,1,1.3,1.3,1.4,1.4,1.6,Effective reproduction no.,Increasing
+ilava,1.4 (1 -- 1.8),1.4,1.4,0.3,1,1.3,1.4,1.5,1.5,1.8,Effective reproduction no.,Likely increasing
+kezmarok,1.4 (0.8 -- 1.8),1.4,1.3,0.3,0.8,1.2,1.3,1.4,1.5,1.8,Effective reproduction no.,Likely increasing
+krupina,1.4 (0.9 -- 2.3),1.4,1.4,0.5,0.9,1.2,1.3,1.4,1.6,2.3,Effective reproduction no.,Likely increasing
+levice,1.4 (1.1 -- 1.8),1.4,1.4,0.2,1.1,1.3,1.4,1.5,1.5,1.8,Effective reproduction no.,Increasing
+poprad,1.4 (1 -- 1.7),1.4,1.4,0.2,1,1.2,1.3,1.4,1.5,1.7,Effective reproduction no.,Increasing
+povazska_bystrica,1.4 (0.9 -- 1.8),1.4,1.4,0.3,0.9,1.2,1.3,1.4,1.5,1.8,Effective reproduction no.,Increasing
+senec,1.4 (1.1 -- 2.2),1.4,1.5,0.4,1.1,1.2,1.3,1.5,1.7,2.2,Effective reproduction no.,Likely increasing
+topolcany,1.4 (0.9 -- 1.9),1.4,1.4,0.3,0.9,1.2,1.3,1.4,1.5,1.9,Effective reproduction no.,Increasing
+vranov,1.4 (0.8 -- 2.2),1.4,1.4,0.5,0.8,1.1,1.3,1.5,1.7,2.2,Effective reproduction no.,Unsure
+zvolen,1.4 (1.1 -- 1.7),1.4,1.4,0.2,1.1,1.3,1.4,1.4,1.5,1.7,Effective reproduction no.,Increasing
+detva,1.3 (0.8 -- 1.9),1.3,1.3,0.3,0.8,1.1,1.2,1.4,1.5,1.9,Effective reproduction no.,Likely increasing
+dunajska_streda,1.3 (0.9 -- 1.8),1.3,1.3,0.3,0.9,1.1,1.2,1.3,1.4,1.8,Effective reproduction no.,Likely increasing
+galanta,1.3 (1 -- 1.7),1.3,1.3,0.2,1,1.2,1.3,1.3,1.4,1.7,Effective reproduction no.,Likely increasing
+gelnica,1.3 (0.7 -- 2),1.3,1.3,0.4,0.7,1.1,1.2,1.4,1.6,2,Effective reproduction no.,Likely increasing
+kosice_okolie,1.3 (0.9 -- 1.8),1.3,1.3,0.3,0.9,1.2,1.3,1.4,1.5,1.8,Effective reproduction no.,Increasing
+malacky,1.3 (1 -- 1.5),1.3,1.3,0.1,1,1.2,1.2,1.3,1.3,1.5,Effective reproduction no.,Increasing
+nitra,1.3 (0.9 -- 1.7),1.3,1.3,0.2,0.9,1.2,1.3,1.3,1.4,1.7,Effective reproduction no.,Increasing
+non-pilot,1.3 (1 -- 1.4),1.3,1.2,0.1,1,1.2,1.2,1.3,1.3,1.4,Effective reproduction no.,Increasing
+nove_zamky,1.3 (0.9 -- 2.5),1.3,1.4,0.5,0.9,1.1,1.2,1.4,1.6,2.5,Effective reproduction no.,Likely increasing
+pezinok,1.3 (0.8 -- 1.6),1.3,1.3,0.2,0.8,1.1,1.2,1.3,1.4,1.6,Effective reproduction no.,Likely increasing
+piestany,1.3 (1 -- 1.7),1.3,1.3,0.2,1,1.2,1.3,1.4,1.4,1.7,Effective reproduction no.,Likely increasing
+prievidza,1.3 (1 -- 1.8),1.3,1.3,0.3,1,1.2,1.3,1.4,1.5,1.8,Effective reproduction no.,Likely increasing
+puchov,1.3 (0.8 -- 1.9),1.3,1.3,0.4,0.8,1.1,1.2,1.4,1.5,1.9,Effective reproduction no.,Likely increasing
+sabinov,1.3 (0.7 -- 1.9),1.3,1.3,0.4,0.7,1.1,1.2,1.4,1.6,1.9,Effective reproduction no.,Likely increasing
+snina,1.3 (0.8 -- 1.7),1.3,1.3,0.3,0.8,1.2,1.3,1.3,1.4,1.7,Effective reproduction no.,Increasing
+spiska_nv,1.3 (0.6 -- 2.2),1.3,1.3,0.5,0.6,1,1.2,1.4,1.6,2.2,Effective reproduction no.,Unsure
+stara_lubovna,1.3 (0.9 -- 1.8),1.3,1.3,0.3,0.9,1.1,1.2,1.3,1.4,1.8,Effective reproduction no.,Likely increasing
+tvrdosin,1.3 (0.7 -- 2.3),1.3,1.4,0.5,0.7,1.1,1.2,1.4,1.6,2.3,Effective reproduction no.,Likely increasing
+zarnovica,1.3 (0.9 -- 1.7),1.3,1.3,0.3,0.9,1.2,1.3,1.4,1.5,1.7,Effective reproduction no.,Increasing
+banska_bystrica,1.2 (0.9 -- 1.5),1.2,1.2,0.2,0.9,1.1,1.2,1.3,1.3,1.5,Effective reproduction no.,Increasing
+bratislava,1.2 (1.1 -- 1.3),1.2,1.2,0.1,1.1,1.1,1.1,1.2,1.2,1.3,Effective reproduction no.,Increasing
+kosice,1.2 (0.9 -- 1.5),1.2,1.2,0.2,0.9,1.1,1.1,1.2,1.3,1.5,Effective reproduction no.,Likely increasing
+liptovsky_mikulas,1.2 (0.7 -- 1.6),1.2,1.2,0.3,0.7,1,1.1,1.3,1.4,1.6,Effective reproduction no.,Likely increasing
+roznava,1.2 (0.6 -- 1.7),1.2,1.2,0.4,0.6,1,1.1,1.3,1.4,1.7,Effective reproduction no.,Unsure
+sala,1.2 (0.9 -- 1.4),1.2,1.2,0.2,0.9,1.1,1.2,1.2,1.3,1.4,Effective reproduction no.,Increasing
+senica,1.2 (0.8 -- 1.7),1.2,1.2,0.3,0.8,1.1,1.2,1.3,1.4,1.7,Effective reproduction no.,Likely increasing
+skalica,1.2 (0.7 -- 1.8),1.2,1.2,0.3,0.7,1,1.1,1.3,1.4,1.8,Effective reproduction no.,Likely increasing
+stropkov,1.2 (0.5 -- 2.6),1.2,1.3,0.7,0.5,0.8,1,1.3,1.6,2.6,Effective reproduction no.,Unsure
+trencin,1.2 (0.9 -- 1.6),1.2,1.2,0.2,0.9,1.1,1.2,1.3,1.4,1.6,Effective reproduction no.,Unsure
+trnava,1.2 (0.9 -- 1.5),1.2,1.2,0.2,0.9,1.1,1.1,1.2,1.3,1.5,Effective reproduction no.,Likely increasing
+velky_krtis,1.2 (0.6 -- 1.8),1.2,1.2,0.4,0.6,1,1.2,1.3,1.4,1.8,Effective reproduction no.,Likely increasing
+humenne,1.1 (0.6 -- 1.7),1.1,1.1,0.4,0.6,0.9,1,1.1,1.3,1.7,Effective reproduction no.,Likely increasing
+medzilaborce,1.1 (0.5 -- 1.7),1.1,1.1,0.4,0.5,0.8,1,1.2,1.3,1.7,Effective reproduction no.,Unsure
+svidnik,1.1 (0.5 -- 2.1),1.1,1.1,0.5,0.5,0.8,1,1.2,1.4,2.1,Effective reproduction no.,Unsure
+banska_stiavnica,1 (0 -- 12),1,3,5,0,0,0,2,3,12,New confirmed cases by infection date,Unsure
+cadca,1 (0.5 -- 1.7),1,1,0.4,0.5,0.8,0.9,1.1,1.3,1.7,Effective reproduction no.,Likely increasing
+dolny_kubin,1 (0.5 -- 1.6),1,1,0.3,0.5,0.7,0.9,1.1,1.2,1.6,Effective reproduction no.,Unsure
+levoca,1 (0.3 -- 1.9),1,1,0.5,0.3,0.7,0.8,1.1,1.3,1.9,Effective reproduction no.,Likely increasing
+lucenec,1 (0.3 -- 1.9),1,1,0.5,0.3,0.6,0.9,1.2,1.4,1.9,Effective reproduction no.,Unsure
+michalovce,1 (0.5 -- 1.7),1,1,0.4,0.5,0.8,0.9,1.1,1.2,1.7,Effective reproduction no.,Unsure
+pilot,1 (0.6 -- 1.5),1,1,0.3,0.6,0.9,1,1.1,1.2,1.5,Effective reproduction no.,Likely increasing
+presov,1 (0.7 -- 1.5),1,1,0.3,0.7,0.9,1,1.1,1.2,1.5,Effective reproduction no.,Likely increasing
+myjava,0.9 (0.4 -- 2),0.9,1,0.5,0.4,0.7,0.8,1,1.2,2,Effective reproduction no.,Unsure
+namestovo,0.9 (0.5 -- 1.7),0.9,1,0.4,0.5,0.7,0.8,1,1.2,1.7,Effective reproduction no.,Unsure
+sobrance,0.9 (0.6 -- 1.5),0.9,1,0.3,0.6,0.8,0.9,1,1.2,1.5,Effective reproduction no.,Unsure
+trebisov,0.9 (0.6 -- 1.4),0.9,1,0.3,0.6,0.8,0.9,1,1.1,1.4,Effective reproduction no.,Unsure
+zlate_moravce,0.9 (0.5 -- 1.5),0.9,1,0.3,0.5,0.8,0.9,1,1.1,1.5,Effective reproduction no.,Unsure
+ziar_nh,0.8 (0.5 -- 1.2),0.8,0.8,0.2,0.5,0.7,0.7,0.9,0.9,1.2,Effective reproduction no.,Unsure
+banska_stiavnica,0.7 (0.2 -- 1.4),0.7,0.7,0.4,0.2,0.4,0.6,0.8,1,1.4,Effective reproduction no.,Unsure
+bardejov,0.7 (0.4 -- 1.2),0.7,0.7,0.3,0.4,0.5,0.6,0.8,0.9,1.2,Effective reproduction no.,Unsure

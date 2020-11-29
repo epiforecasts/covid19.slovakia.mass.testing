@@ -1,0 +1,37 @@
+Package: covid19.slovakia.mass.testing
+Title: Code accompanying the manuscript "The effectiveness of population-wide screening in reducing SARS-CoV-2 infection prevalence in Slovakia"
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Martin",
+             family = "Pavelka",
+             role = c("aut"),
+             email = "Martin.Pavelka@health.gov.sk"),
+      person(given = "Katharine",
+             family = "Sherratt",
+             role = c("aut"),
+             email = "katharine.sherratt@lshtm.ac.uk"),
+      person(given = "Sebastian",
+             family = "Funk",
+             role = c("aut", "cre"),
+             email = "sebastian.funk@lshtm.ac.uk"),
+       person(given = "Stefan",
+             family = "Flasche",
+             role = c("aut"),
+             email = "stefan.flasche@lshtm.ac.uk"))
+Description: Contains all the code and data required to generate the figures and tables in the manuscript.
+Depends:
+    R (>= 4.0.0),
+    dplyr,
+    tidyr,
+    kableExtra,
+    ggplot2,
+    scales,
+    stringr,
+    epitools
+License: MIT + file LICENSE
+ByteCompile: true
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/sbfnk/covid19.slovakia.mass.testing
+BugReports: https://github.com/covid19.slovakia.mass.testing
+RoxygenNote: 7.1.1
