@@ -29,7 +29,8 @@ saveRDS(incubation_period, here::here("data-raw", "data", "incubation_period.rds
 reporting_delay <- list(mean = 1.25,
                         means_sd = 0.05,
                         sd = 1,
-                        sd_sd = 0.05)
+                        sd_sd = 0.05,
+                        max = 30)
 saveRDS(reporting_delay, here::here("data-raw", "data", "reporting_delay.rds"))
 
 print("Reporting delay parameters (log normal)")
