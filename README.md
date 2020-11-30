@@ -67,7 +67,7 @@ running.
 source(here::here("data-raw", "scripts", "rt-distributions.r"))
 ```
 
-The Google mobility data set for Slovakia `mob_slo` visualised in
+The Google mobility data set for Slovakia `mob.slo` visualised in
 Supplementary Figure S4 can be accessed with
 
 ``` r
