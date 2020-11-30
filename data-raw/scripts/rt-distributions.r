@@ -27,7 +27,7 @@ saveRDS(incubation_period, here::here("data-raw", "data", "incubation_period.rds
 # use an approximate delay distribution based on local knowledge
 # truncate the distribution at 30 days
 reporting_delay <- list(mean = 1.25,
-                        means_sd = 0.05,
+                        mean_sd = 0.05,
                         sd = 1,
                         sd_sd = 0.05,
                         max = 30)
