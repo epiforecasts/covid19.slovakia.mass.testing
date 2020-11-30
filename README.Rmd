@@ -65,8 +65,8 @@ source(here::here("data-raw", "scripts", "rt-distributions.r"))
 
 The Google mobility data set for Slovakia `mob_slo` visualised in Supplementary Figure S4 can be accessed with
 
-```{r mob_slo, eval = FALSE}
-data(mob_slo)
+```{r mob.slo, eval = FALSE}
+data(mob.slo)
 ```
 
 ### Figures and tables

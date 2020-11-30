@@ -71,7 +71,7 @@ The Google mobility data set for Slovakia `mob_slo` visualised in
 Supplementary Figure S4 can be accessed with
 
 ``` r
-data(mob_slo)
+data(mob.slo)
 ```
 
 ### Figures and tables
