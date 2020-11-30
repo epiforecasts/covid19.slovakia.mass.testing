@@ -62,13 +62,13 @@ regression <- function(file = NULL) {
     pivot_wider() %>%
     mutate(prop_attend = attendance / pop,
            round = as.integer(round) - 2, # make integer indicator variable for rd 3
-           round_rd2att = ifelse(round > 0, # centre and stadardise
+           round_rd2att = ifelse(round > 0, # centre and standardise
            (round2_att - round2_mean_att) / round2_mean_att,
            0),
-           round_rd2pos = ifelse(round > 0, #centre and stadardise
+           round_rd2pos = ifelse(round > 0, #centre and standardise
            (round2_prev - round2_mean_prev) / round2_mean_prev,
            0),
-           round_R = ifelse(round > 0, #centre and stadardise
+           round_R = ifelse(round > 0, #centre and standardise
            (R - mean_R) / mean_R,
            0))
 
