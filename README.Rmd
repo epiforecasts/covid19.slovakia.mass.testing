@@ -17,11 +17,11 @@ Title <- "The effectiveness of population-wide screening in reducing SARS-CoV-2 
 
 This repository contains the data and code for our manuscript:
 
-Pavelka S, Van-Zandvoort K, Abbott S, Sherratt K, Majdan M, CMMID COVID-19 working group, Jarčuška P, Krajčí M, Flasche S, Funk S,  _`r Title`_.
+Pavelka S, Van-Zandvoort K, Abbott S, Sherratt K, Majdan M, CMMID COVID-19 working group, Jarčuška P, Krajčí M, Flasche S*, Funk S* (*: equal contribution),  _`r Title`_. Available at <https://cmmid.github.io/topics/covid19/Slovakia.html>.
 
 ### How to download or install
 
-You can download the compendium as a zip from from this URL: <https://github.com/sbfnk/covid19.slovakia.mass.testing/archive/master.zip>
+You can download the compendium as a zip from from this URL: <https://github.com/sbfnk/covid19.slovakia.mass.testing/archive/master.zip>.
 
 Or you can install this compendium as an R package, `covid19.slovakia.mass.testing`, from GitHub with:
 
