@@ -30,3 +30,10 @@ NULL
 ##' @docType data
 NULL
 
+##' Prevalence samples
+##'
+##' Samples of estimated infection prevalence on 31 October and 7 November 2020
+##'
+##' @name prevalence.samples
+##' @docType data
+NULL
