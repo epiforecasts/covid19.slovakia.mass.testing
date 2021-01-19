@@ -4,6 +4,7 @@ library("tidyverse")
 library("lubridate")
 library("stringi")
 library("readr")
+library("vroom")
 
 ###########################
 # PCR incidence data
@@ -81,3 +82,7 @@ Rt.county <- Rts %>%
   select(county, R = median)
 
 save(Rt.county, file = here::here("data", "R.county.rdata"))
+
+prevalence.samples <-
+  vroom(here::here("data-raw", "data", "rt", "prevalence-samples.csv"))
+save(prevalence.samples, file = here::here("data", "prevalence.samples.rdata"))
