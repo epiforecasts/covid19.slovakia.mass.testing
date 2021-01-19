@@ -26,33 +26,6 @@ regression <- function(file = NULL) {
            round2_mean_att = mean(round2_att, na.rm = TRUE),
            mean_R = mean(R))
 
-  options(knitr.kable.NA = "")
-
-  if (!is.null(file)) {
-    col.names <-
-      c("County", "Region", "Population", "R",
-        rep(c("Positive", "Attendance", "%"), times = 2))
-
-    k <- kable(ms.R %>%
-               mutate(round2_prev = round(round2_prev * 100, 2),
-                      round3_prev = round(positive_3 / attendance_3 * 100, 2),
-                      R = round(R, 1)) %>%
-               select(county, region, pop, R,
-                      ends_with("_2"), round2_prev,
-                      ends_with("_3"), round3_prev) %>%
-               arrange(county),
-               format = "latex",
-               col.names = col.names,
-               align=c('l|', 'l|', 'r|', 'r|', rep('r', 3), '|r', rep('r', 2)),
-               booktabs = TRUE)
-
-    k <-
-      add_header_above(k, c(" " = 4,
-                            "Round 1" = 3, "Round 2" = 3))
-
-    save_kable(k, file)
-  }
-
   reg_data <- ms.R %>%
     filter(!is.na(attendance_3)) %>%
     pivot_longer(c(-county, -pilot, -pop, -region,
@@ -79,5 +52,6 @@ regression <- function(file = NULL) {
   round_coeff <- mod$coefficients["round"] %>% exp %>% {1-.} %>% round(2)
   round_coeff_confint <- mod %>% confint("round") %>% exp %>% {1-.} %>% round(2)
 
-  return(list(res = mod, round = c(round_coeff, round_coeff_confint)))
+  return(list(res = mod, round = c(round_coeff, round_coeff_confint),
+              covariates = ms.R))
 }
