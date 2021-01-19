@@ -67,7 +67,8 @@ risk_ratios <- function() {
     mutate(pRR = epitab(c(attendance_2-positive_2,positive_2,attendance_3-positive_3,positive_3),method = "riskratio")$tab[2,c("riskratio")],
            pRR.lo = epitab(c(attendance_2-positive_2,positive_2,attendance_3-positive_3,positive_3),method = "riskratio")$tab[2,c("lower")],
            pRR.hi = epitab(c(attendance_2-positive_2,positive_2,attendance_3-positive_3,positive_3),method = "riskratio")$tab[2,c("upper")]) %>%
-    select(county, region, pRR, pRR.lo, pRR.hi) -> pRR_mass
+    select(county, pRR, pRR.lo, pRR.hi) -> pRR_mass
+  ret_rr[["county"]] <- pRR_mass
 
   ms.tst %>%
     filter(!is.na(positive_2) & !is.na(positive_3) & !is.na(attendance_2) & !is.na(attendance_3)) %>%
@@ -78,7 +79,7 @@ risk_ratios <- function() {
            pRR.hi = epitab(c(attendance_2-positive_2,positive_2,attendance_3-positive_3,positive_3),method = "riskratio")$tab[2,c("upper")]) %>%
     select(pRR, pRR.lo, pRR.hi) %>%
     mutate(county = "Overall")-> pRR_mass_sum
-  ret_rr[["nation"]] <- 1-(pRR_mass_sum %>% select(-county)) %>% round(2)
+  ret_rr[["all"]] <- 1-(pRR_mass_sum %>% select(-county)) %>% round(2)
 
   ret_fig[["a"]] <- pRR_mass %>%
     ggplot(aes(x=interaction(region,county,lex.order = T), y=1-pRR, ymin=1-pRR.lo, ymax=1-pRR.hi, color = region)) +
