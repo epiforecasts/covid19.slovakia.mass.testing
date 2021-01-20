@@ -95,6 +95,11 @@ To regenerate Fig. S4, run
 mobility()
 ```
 
+To regenerate Fig. S7, run
+```{r prevalence, eval = FALSE}
+prevalence()
+```
+
 ### Minimum specificity
 
 To estimate minimum specificity, run

@@ -80,8 +80,7 @@ To regenerate Table 1 and the adjusted prevalence risk ratio estimate,
 run
 
 ``` r
-r <- regression("table1.pdf")
-r$round
+r <- county_table("table1.pdf")
 ```
 
 To regenerate Fig. 1, run
@@ -103,6 +102,12 @@ To regenerate Fig. S4, run
 
 ``` r
 mobility()
+```
+
+To regenerate Fig. S7, run
+
+``` r
+prevalence()
 ```
 
 ### Minimum specificity

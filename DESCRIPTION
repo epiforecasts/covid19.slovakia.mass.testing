@@ -27,7 +27,9 @@ Depends:
     ggplot2,
     scales,
     stringr,
-    epitools
+    epitools,
+    binom,
+    forcats
 License: MIT + file LICENSE
 ByteCompile: true
 Encoding: UTF-8
