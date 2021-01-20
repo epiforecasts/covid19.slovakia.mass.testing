@@ -7,7 +7,7 @@
 mobility()
 }
 \value{
-a plot with mobility data
+a plot with mobility dat
 }
 \description{
 Plot mobility data for Slovakia
