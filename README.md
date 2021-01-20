@@ -80,7 +80,7 @@ To regenerate Table 1 and the adjusted prevalence risk ratio estimate,
 run
 
 ``` r
-r <- county_table("table1.pdf")
+county_table("table1.pdf")
 ```
 
 To regenerate Fig. 1, run
