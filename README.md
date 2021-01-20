@@ -76,8 +76,7 @@ data(mob.slo)
 
 ### Figures and tables
 
-To regenerate Table 1 and the adjusted prevalence risk ratio estimate,
-run
+To regenerate Table 1, run
 
 ``` r
 county_table("table1.pdf")
@@ -96,6 +95,12 @@ rr <- risk_ratios()
 rr$figures$a
 rr$figures$b
 rr$tables
+```
+
+To generate Table S1 and estimate the adjusted prevalence ratio, run
+
+``` r
+r <- regression()
 ```
 
 To regenerate Fig. S4, run
