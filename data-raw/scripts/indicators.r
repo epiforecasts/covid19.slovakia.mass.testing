@@ -4,6 +4,11 @@ library("tidyr")
 library("janitor")
 library("brms")
 
+unemp <-
+  read_excel(here::here("data-raw", "data", "indicators", "MS_2011-1.xlsx"),
+             sheet = "Tab1", skip = 9) %>%
+  clean_names() %>%
+  select(county = x1, active = x12, unemployed = x13)
 
 roma <-
   read_excel(here::here("data-raw", "data", "indicators",
