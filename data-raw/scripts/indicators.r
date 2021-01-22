@@ -88,42 +88,99 @@ prev_long <- ms.tst %>%
   ungroup()
 
 # visual prev vs covariate
-prev_long %>% 
+scatter <- prev_long %>% 
   mutate(prev = positive_2 / attendance_2) %>% 
-  ggplot(aes(x = value, y = prev, col = region)) +
+  ggplot(aes(y = value, x = prev, col = region)) +
   geom_point() +
-  facet_wrap(~name) +
-  labs(x = "Variable value", y = "Prevalence") +
-  guides(col = guides_legend(title = "Region"))
-  theme_classic()
+  facet_wrap(~name, scales = "free_y") +
+  labs(y = "Variable value", x = "Prevalence") +
+  guides(col = guide_legend(title = "Region")) +
+  theme_classic() +
+  theme(legend.position = "bottom")
 
-ggsave(here::here())
+scatter 
+
+plot_dir <- here::here("data-raw", "figures")
+if (!dir.exists(plot_dir)) {
+  dir.create(plot_dir)
+}
+ggsave(paste0(plot_dir, "/scatter.png"), scatter, width = 9, height = 6)
+
 # analysis format
 prev <- prev %>%
   pivot_wider()
 
 # plot correlations and data relationships
-prev %>% 
+correlation <- prev %>% 
   mutate(prev = positive_2 / attendance_2) %>% 
   select(-county, -region, -attendance_2, -positive_2) %>%
   ggpairs()
 
+correlation
+
+ggsave(paste0(plot_dir, "/correlation.png"), correlation, width = 9, height = 9)
+
+# Define beta binomial ----------------------------------------------------
+beta_binomial2 <- custom_family(
+  "beta_binomial2", dpars = c("mu", "phi"),
+  links = c("logit", "log"), lb = c(NA, 2),
+  type = "int", vars = "vint1[n]"
+)
+
+stan_funs <- "
+  real beta_binomial2_lpmf(int y, real mu, real phi, int T) {
+    return beta_binomial_lpmf(y | T, mu * phi, (1 - mu) * phi);
+  }
+  int beta_binomial2_rng(real mu, real phi, int T) {
+    return beta_binomial_rng(T, mu * phi, (1 - mu) * phi);
+  }
+"
+stanvars <- stanvar(scode = stan_funs, block = "functions")
+
+# Priors ------------------------------------------------------------------
+priors <- c(prior("exponential(1)", class = "phi"))
+
+# Define models --------------------------------------------------------------
+models <- list()
+
+models[["linear"]] <- 
+  as.formula(positive_2 | vint(attendance_2) ~ pilot + mean_age + pop_dens + unemp_rate + 
+               proportion_roma + income + (1 | region))
+
+models[["linear_by_region"]] <-
+  as.formula(positive_2 | vint(attendance_2) ~  pilot + mean_age + pop_dens + unemp_rate + 
+               proportion_roma + income + (pilot + mean_age + pop_dens + unemp_rate + proportion_roma | region))
+
+
+models[["spline"]]  <- 
+  as.formula(positive_2 | vint(attendance_2) ~  pilot + s(mean_age, k = 3) + s(pop_dens, k = 3) + 
+               s(unemp_rate, k = 3) + s(proportion_roma, k = 3) + s(income, k = 3) + (1 | region))
+
 # Fit models --------------------------------------------------------------
-fits <- list()
-fits[["linear"]] <- brm(positive_2 | trials(attendance_2) ~
-                          pilot + mean_age + pop_dens + unemp_rate + proportion_roma + income + (1 | region),
-                        data = prev, family = binomial(), control = list(adapt_delta = 0.99))
+fits <- lapply(models, brm, data = prev, family = binomial(), prior = priors,
+               control = list(adapt_delta = 0.99, max_treedepth = 12))
+beta_fits <- lapply(models, brm, data = prev, family = beta_binomial2, prior = priors,
+               control = list(adapt_delta = 0.99, max_treedepth = 12),
+               stanvars = stanvars)
+names(beta_fits) <- paste0("beta_", names(beta_fits))
 
-fits[["linear_by_region"]] <- brm(positive_2 | trials(attendance_2) ~
-                                    pilot + mean_age + pop_dens + unemp_rate + proportion_roma + income +
-                                    (pilot + mean_age + pop_dens + unemp_rate + proportion_roma | region),
-                        data = prev, family = binomial(), control = list(adapt_delta = 0.99, max_treedepth = 15))
+# Log lik and prediction --------------------------------------------------
+expose_functions(fits[[1]], vectorize = TRUE)
 
+log_lik_beta_binomial2 <- function(i, prep) {
+  mu <- brms:::get_dpar(prep, "mu", i = i)
+  phi <- brms:::get_dpar(prep, "phi", i = i)
+  trials <- prep$data$vint1[i]
+  y <- prep$data$Y[i]
+  beta_binomial2_lpmf(y, mu, phi, trials)
+}
 
-fits[["spline"]]  <- brm(positive_2 | trials(attendance_2) ~  pilot + 
-                           s(mean_age, k = 3) + s(pop_dens, k = 3) + s(unemp_rate, k = 3) +
-                           s(proportion_roma, k = 3) + s(income, k = 3) + ( 1 | region),
-                         data = prev, family = binomial(), control = list(adapt_delta = 0.99))
+posterior_predict_beta_binomial2 <- function(i, prep, ...) {
+  mu <- prep$dpars$mu[, i]
+  phi <- prep$dpars$phi
+  trials <- prep$data$vint1[i]
+  beta_binomial2_rng(mu, phi, trials)
+}
 
 # Compare fits ------------------------------------------------------------
 loos <- lapply(fits, loo)
