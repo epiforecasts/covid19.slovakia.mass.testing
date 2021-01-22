@@ -56,7 +56,8 @@ pop_dens <-
 # Outcome -----------------------------------------------------------------
 load(here::here("data", "ms.tst.rdata"))
 
-prev <- ms.tst %>%
+# all covariates and outcome
+prev_long <- ms.tst %>%
   mutate(region = if_else(grepl("Košice", county), "Košický kraj", region)) %>%
   mutate(pilot = !is.na(attendance_1)) %>% 
   select(county, region, attendance_2, positive_2, pilot) %>%
@@ -81,7 +82,17 @@ prev <- ms.tst %>%
   pivot_longer(c(-county, -region, -attendance_2, -positive_2, -pilot)) %>%
   group_by(name) %>%
   mutate(value = (value - mean(value)) / sd(value)) %>%
-  ungroup() %>%
+  ungroup()
+
+# visual
+prev_long %>% 
+  mutate(prev = positive_2 / attendance_2) %>% 
+  ggplot(aes(x = value, y = prev, col = region)) +
+  geom_point() +
+  facet_wrap(~name)
+
+# analysis format
+prev <- prev %>%
   pivot_wider()
 
 # Fit models --------------------------------------------------------------
@@ -130,7 +141,7 @@ p <- ggplot(plotpp, aes(x = id, y = median)) +
 
 # Plot effects ------------------------------------------------------------
 # linear
-plot(conditional_effects(spline_fit, re_formula = NULL), rug = TRUE, ask = FALSE)
+plot(conditional_effects(fit, re_formula = NULL), rug = TRUE, ask = FALSE)
 
 # spline
 plot(conditional_effects(spline_fit, re_formula = NULL), rug = TRUE, ask = FALSE)
