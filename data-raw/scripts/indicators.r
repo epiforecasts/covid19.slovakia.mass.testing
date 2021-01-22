@@ -174,9 +174,9 @@ models[["beta_spline"]]  <-
 # Fit models --------------------------------------------------------------
 
 bin_fits <- lapply(models[!grepl("beta_", names(models))], brm, data = prev, family = binomial(), 
-               control = list(adapt_delta = 0.99, max_treedepth = 12))
+               control = list(adapt_delta = 0.99, max_treedepth = 15))
 beta_fits <- lapply(models[grepl("beta_", names(models))], brm, data = prev, family = beta_binomial2, prior = priors,
-               control = list(adapt_delta = 0.99, max_treedepth = 12),stanvars = stanvars)
+               control = list(adapt_delta = 0.99, max_treedepth = 15),stanvars = stanvars)
 
 fits <- c(bin_fits, beta_fits)
 
