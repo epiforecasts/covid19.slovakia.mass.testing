@@ -107,7 +107,7 @@ if (!dir.exists(plot_dir)) {
 ggsave(paste0(plot_dir, "/scatter.png"), scatter, width = 9, height = 6)
 
 # analysis format
-prev <- prev %>%
+prev <- prev_long %>%
   pivot_wider()
 
 # plot correlations and data relationships
