@@ -3,12 +3,6 @@ library("dplyr")
 library("janitor")
 library("brms")
 
-unemp <-
-  read_excel(here::here("data-raw", "data", "indicators", "MS_2011-1.xlsx"),
-             sheet = "Tab1", skip = 9) %>%
-  clean_names() %>%
-  select(county = x1, active = x12, unemployed = x13)
-
 roma <-
   read_excel(here::here("data-raw", "data", "indicators",
                         "Roma Atlas 2019-1.xlsx"),
@@ -47,6 +41,8 @@ pop_dens <-
   mutate(county = sub("District of ", "", county),
          county = sub(" ", " ", county)) %>%
   mutate(county = recode(county, `Śaľa` = "Šaľa"))
+
+load(here::here("data", "ms.tst.rdata"))
 
 prev <- ms.tst %>%
   mutate(region = if_else(grepl("Košice", county), "Košický kraj", region)) %>%
