@@ -19,16 +19,18 @@ regression <- function(file = NULL) {
              if_else(simple_name %in%
                      c("tvrdosin", "namestovo", "dolny_kubin", "bardejov"),
                      "pilot", "non-pilot")) %>%
-    select(county, pilot, pop, region, positive_2, attendance_2, positive_3, attendance_3, R) %>%
-    mutate(round2_prev = positive_2/attendance_2,
-           round2_att = attendance_2/pop,
+    select(county, pilot, pop, region, positive_1, attendance_1,
+           positive_2, attendance_2, positive_3, attendance_3, R) %>%
+    mutate(pilot_prev = positive_1 / attendance_1,
+           round2_prev = positive_2 / attendance_2,
+           round2_att = attendance_2 / pop,
            round2_mean_prev = mean(round2_prev, na.rm = TRUE),
            round2_mean_att = mean(round2_att, na.rm = TRUE),
            mean_R = mean(R))
 
   reg_data <- ms.R %>%
     filter(!is.na(attendance_3)) %>%
-    pivot_longer(c(-county, -pilot, -pop, -region,
+    pivot_longer(c(-county, -pilot, -pop, -region, -pilot_prev,
                    -starts_with("round2_"), -R, -mean_R)) %>%
     mutate(name = sub("^(.+)_([[:digit:]]+)$", "\\1|\\2", name)) %>%
     separate(name, c("name", "round"), "\\|") %>%
