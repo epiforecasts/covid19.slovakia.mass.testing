@@ -4,7 +4,10 @@ library("dplyr")
 library("tidyr")
 library("janitor")
 library("brms")
+library("GGally")
 library("ggplot2")
+
+options(mc.cores = 4)
 
 # Covariate ---------------------------------------------------------------
 unemp <-
@@ -84,7 +87,7 @@ prev_long <- ms.tst %>%
   mutate(value = (value - mean(value)) / sd(value)) %>%
   ungroup()
 
-# visual
+# visual prev vs covariate
 prev_long %>% 
   mutate(prev = positive_2 / attendance_2) %>% 
   ggplot(aes(x = value, y = prev, col = region)) +
@@ -95,24 +98,37 @@ prev_long %>%
 prev <- prev %>%
   pivot_wider()
 
-# Fit models --------------------------------------------------------------
-fit <- brm(positive_2 | trials(attendance_2) ~
-             pilot + mean_age + pop_dens + unemp_rate + proportion_roma + income + (1 | region),
-           data = prev, family = binomial(), control = list(adapt_delta = 0.9))
-fit <- add_criterion(fit, "loo")
+# plot correlations and data relationships
+prev %>% 
+  mutate(prev = positive_2 / attendance_2) %>% 
+  select(-county, -region, -attendance_2, -positive_2) %>%
+  ggpairs()
 
-spline_fit <- brm(positive_2 | trials(attendance_2) ~  pilot + 
-                    s(mean_age, k = 3) + s(pop_dens, k = 3) + s(unemp_rate, k = 3) +
-                    s(proportion_roma, k = 3) + s(income, k = 3) + (1 | region),
-                  data = prev, family = binomial(), control = list(adapt_delta = 0.9))
-spline_fit <- add_criterion(spline_fit, "loo") 
+# Fit models --------------------------------------------------------------
+fits <- list()
+fits[["linear"]] <- brm(positive_2 | trials(attendance_2) ~
+                          pilot + mean_age + pop_dens + unemp_rate + proportion_roma + income + (1 | region),
+                        data = prev, family = binomial(), control = list(adapt_delta = 0.9))
+
+fits[["linear_by_region"]] <- brm(positive_2 | trials(attendance_2) ~
+                                    pilot + mean_age + pop_dens + unemp_rate + proportion_roma + income +
+                                    (pilot + mean_age + pop_dens + unemp_rate + proportion_roma | region),
+                        data = prev, family = binomial(), control = list(adapt_delta = 0.9))
+
+
+fits[["spline"]]  <- brm(positive_2 | trials(attendance_2) ~  pilot + 
+                           s(mean_age, k = 3) + s(pop_dens, k = 3) + s(unemp_rate, k = 3) +
+                           s(proportion_roma, k = 3) + s(income, k = 3) + region + (1 | county),
+                         data = prev, family = binomial(), control = list(adapt_delta = 0.9))
 
 # Compare fits ------------------------------------------------------------
-loo_compare(fit, spline_fit)
-
+fits <- lapply(fits, add_criterion, criterion = "loo")
+loo_compare(fits)
 
 # Model diagnostics -------------------------------------------------------
-yhat <- posterior_predict(spline_fit)
+best_fit <- fits[["linear"]]
+
+yhat <- posterior_predict(best_fit)
 colnames(yhat) <- prev$county
 
 plotpp <- as_tibble(yhat) %>%
@@ -139,12 +155,13 @@ p <- ggplot(plotpp, aes(x = id, y = median)) +
   theme(axis.text.x = element_blank(),
         axis.ticks.x = element_blank())
 
+p
 # Plot effects ------------------------------------------------------------
 # linear
-plot(conditional_effects(fit, re_formula = NULL), rug = TRUE, ask = FALSE)
+plot(conditional_effects(fits[["linear"]], re_formula = NULL), rug = TRUE, ask = FALSE)
 
 # spline
-plot(conditional_effects(spline_fit, re_formula = NULL), rug = TRUE, ask = FALSE)
+plot(conditional_effects(fits[["spline"]], re_formula = NULL), rug = TRUE, ask = FALSE)
 
 
 

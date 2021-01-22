@@ -38,7 +38,7 @@ non_pilot <- copy(cases)[!(region %in% pilot_regions)]
 sum_non_pilot <- copy(non_pilot)[, .(confirm = sum(confirm)), by = date]
 sum_non_pilot <- sum_non_pilot[, region := "non-pilot"]
 
-## all reginos
+## all regions
 sum_all <- copy(cases)[, .(confirm = sum(confirm)), by = date]
 sum_all <- sum_all[, region := "all"]
 
