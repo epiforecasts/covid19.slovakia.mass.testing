@@ -143,26 +143,42 @@ priors <- c(prior("exponential(1)", class = "phi"))
 # Define models --------------------------------------------------------------
 models <- list()
 
+# binomial
 models[["linear"]] <- 
-  as.formula(positive_2 | vint(attendance_2) ~ pilot + mean_age + pop_dens + unemp_rate + 
+  as.formula(positive_2 | trials(attendance_2) ~ pilot + mean_age + pop_dens + unemp_rate + 
                proportion_roma + income + (1 | region))
 
 models[["linear_by_region"]] <-
-  as.formula(positive_2 | vint(attendance_2) ~  pilot + mean_age + pop_dens + unemp_rate + 
+  as.formula(positive_2 | trials(attendance_2) ~  pilot + mean_age + pop_dens + unemp_rate + 
                proportion_roma + income + (pilot + mean_age + pop_dens + unemp_rate + proportion_roma | region))
 
 
 models[["spline"]]  <- 
+  as.formula(positive_2 | trials(attendance_2) ~  pilot + s(mean_age, k = 3) + s(pop_dens, k = 3) + 
+               s(unemp_rate, k = 3) + s(proportion_roma, k = 3) + s(income, k = 3) + (1 | region))
+
+# beta binomial
+models[["beta_linear"]] <- 
+  as.formula(positive_2 | vint(attendance_2) ~ pilot + mean_age + pop_dens + unemp_rate + 
+               proportion_roma + income + (1 | region))
+
+models[["beta_linear_by_region"]] <-
+  as.formula(positive_2 | vint(attendance_2) ~  pilot + mean_age + pop_dens + unemp_rate + 
+               proportion_roma + income + (pilot + mean_age + pop_dens + unemp_rate + proportion_roma | region))
+
+
+models[["beta_spline"]]  <- 
   as.formula(positive_2 | vint(attendance_2) ~  pilot + s(mean_age, k = 3) + s(pop_dens, k = 3) + 
                s(unemp_rate, k = 3) + s(proportion_roma, k = 3) + s(income, k = 3) + (1 | region))
 
 # Fit models --------------------------------------------------------------
-fits <- lapply(models, brm, data = prev, family = binomial(), prior = priors,
+
+bin_fits <- lapply(models[!grepl("beta_", names(models))], brm, data = prev, family = binomial(), 
                control = list(adapt_delta = 0.99, max_treedepth = 12))
-beta_fits <- lapply(models, brm, data = prev, family = beta_binomial2, prior = priors,
-               control = list(adapt_delta = 0.99, max_treedepth = 12),
-               stanvars = stanvars)
-names(beta_fits) <- paste0("beta_", names(beta_fits))
+beta_fits <- lapply(models[grepl("beta_", names(models))], brm, data = prev, family = beta_binomial2, prior = priors,
+               control = list(adapt_delta = 0.99, max_treedepth = 12),stanvars = stanvars)
+
+fits <- c(bin_fits, beta_fits)
 
 # Log lik and prediction --------------------------------------------------
 expose_functions(fits[[1]], vectorize = TRUE)
@@ -217,12 +233,16 @@ p <- ggplot(plotpp, aes(x = id, y = median)) +
         axis.ticks.x = element_blank())
 
 p
+
+ggsave(paste0(plot_dir, "/posterior_predictions.png"), p, width = 7, height = 7)
+
 # Plot effects ------------------------------------------------------------
-# linear
-plot(conditional_effects(fits[["linear"]], re_formula = NULL), rug = TRUE, ask = FALSE)
+plots <- plot(conditional_effects(best_fit, re_formula = NULL), 
+              rug = TRUE, ask = FALSE)
 
-# spline
-plot(conditional_effects(fits[["spline"]], re_formula = NULL), rug = TRUE, ask = FALSE)
-
+plotted <- lapply(1:length(plots), function(i){
+  ggsave(paste0(plot_dir, "/conditional_effect_", i, ".png"), 
+         plots[[i]], height = 7, width = 7)
+})
 
 

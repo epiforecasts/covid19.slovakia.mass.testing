@@ -6,3 +6,5 @@ R/.Rhistory
 data-raw/data/rt/samples
 data-raw/data/rt/logs
 data-raw/data/rt/*.png
+data-raw/figures
+.Rproj.user
