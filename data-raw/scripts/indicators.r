@@ -22,7 +22,7 @@ roma <-
 
 income <-
   read_excel(here::here("data-raw", "data", "indicators",
-                        "slovakia_income_by_region.xlsx"),
+                        "slovakia_income_k_region.xlsx"),
              skip = 4) %>%
   clean_names() %>%
   mutate(income = as.integer(sub(",", ".", x2019))) %>%
@@ -30,7 +30,7 @@ income <-
 
 age <-
   read_excel(here::here("data-raw", "data", "indicators",
-                        "slovakia_mean_age_by_district.xlsx"),
+                        "slovakia_mean_age_k_district.xlsx"),
              skip = 5) %>%
   clean_names() %>%
   select(county = x1, mean_age = x2019) %>%
@@ -41,7 +41,7 @@ age <-
 
 pop_dens <-
   read_excel(here::here("data-raw", "data", "indicators",
-                        "slovakia_pop_dens_by_district.xlsx"),
+                        "slovakia_pop_dens_k_district.xlsx"),
              skip = 5) %>%
   clean_names() %>%
   select(county = x1, pop_dens = x2019) %>%
@@ -54,12 +54,13 @@ load(here::here("data", "ms.tst.rdata"))
 
 prev <- ms.tst %>%
   mutate(region = if_else(grepl("Košice", county), "Košický kraj", region)) %>%
-  select(county, region, attendance_2, positive_2) %>%
+  mutate(pilot = !is.na(attendance_1)) %>% 
+  select(county, region, attendance_2, positive_2, pilot) %>%
   left_join(unemp, by = "county") %>%
   left_join(age, by = "county") %>%
   left_join(pop_dens, by = "county") %>%
   mutate(county = sub(" [IV]+$",  "", county)) %>%
-  group_by(county, region) %>%
+  group_by(county, region, pilot) %>%
   summarise(attendance_2 = sum(attendance_2),
             positive_2 = sum(positive_2),
             active = sum(active),
@@ -71,18 +72,23 @@ prev <- ms.tst %>%
   mutate(unemp_rate = unemployed / active) %>%
   left_join(roma, by = "county") %>%
   left_join(income, by = "region") %>%
-  select(county, region, ends_with("_2"), mean_age, pop_dens, unemp_rate,
+  select(county, region, ends_with("_2"), pilot, mean_age, pop_dens, unemp_rate,
          proportion_roma, income) %>%
-  pivot_longer(c(-county, -region, -attendance_2, -positive_2)) %>%
+  pivot_longer(c(-county, -region, -attendance_2, -positive_2, -pilot)) %>%
   group_by(name) %>%
   mutate(value = (value - mean(value)) / sd(value)) %>%
   ungroup() %>%
   pivot_wider()
 
+
 fit <- brm(positive_2 | trials(attendance_2) ~
-             mean_age + pop_dens + unemp_rate + proportion_roma + income +
-          (1 | region ),
+             pilot + mean_age + pop_dens + unemp_rate + proportion_roma + income + (1 | region),
            data = prev, family = binomial())
+
+spline_fit <- brm(positive_2 | trials(attendance_2) ~  pilot + 
+                    s(mean_age, k = 3) + s(pop_dens, k = 3) + s(unemp_rate, k = 3) +
+                    s(proportion_roma, k = 3) + s(income, k = 3) + (1 | region),
+                  data = prev, family = binomial())
 
 yhat <- posterior_predict(fit)
 colnames(yhat) <- prev$county
