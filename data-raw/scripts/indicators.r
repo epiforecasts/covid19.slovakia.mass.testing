@@ -150,7 +150,7 @@ models[["linear"]] <-
 
 models[["linear_by_region"]] <-
   as.formula(positive_2 | trials(attendance_2) ~  pilot + mean_age + pop_dens + unemp_rate + 
-               proportion_roma + income + (pilot + mean_age + pop_dens + unemp_rate + proportion_roma | region))
+               proportion_roma + income + (mean_age + pop_dens + unemp_rate + proportion_roma | region))
 
 
 models[["spline"]]  <- 
@@ -164,7 +164,7 @@ models[["beta_linear"]] <-
 
 models[["beta_linear_by_region"]] <-
   as.formula(positive_2 | vint(attendance_2) ~  pilot + mean_age + pop_dens + unemp_rate + 
-               proportion_roma + income + (pilot + mean_age + pop_dens + unemp_rate + proportion_roma | region))
+               proportion_roma + income + (mean_age + pop_dens + unemp_rate + proportion_roma | region))
 
 
 models[["beta_spline"]]  <- 
@@ -180,8 +180,10 @@ beta_fits <- lapply(models[grepl("beta_", names(models))], brm, data = prev, fam
 
 fits <- c(bin_fits, beta_fits)
 
+saveRDS(fits, here::here("data-raw", "data", "prev-cov-fits.rds"))
+
 # Log lik and prediction --------------------------------------------------
-expose_functions(fits[[1]], vectorize = TRUE)
+expose_functions(fits[["beta_linear"]], vectorize = TRUE)
 
 log_lik_beta_binomial2 <- function(i, prep) {
   mu <- brms:::get_dpar(prep, "mu", i = i)
@@ -198,12 +200,39 @@ posterior_predict_beta_binomial2 <- function(i, prep, ...) {
   beta_binomial2_rng(mu, phi, trials)
 }
 
-# Compare fits ------------------------------------------------------------
-loos <- lapply(fits, loo)
-loo_compare(loos)
+posterior_epred_beta_binomial2 <- function(prep) {
+  mu <- prep$dpars$mu
+  trials <- prep$data$vint1
+  trials <- matrix(trials, nrow = nrow(mu), ncol = ncol(mu), byrow = TRUE)
+  mu * trials
+}
 
+# Compare fits ------------------------------------------------------------
+loos <- suppressWarnings(lapply(fits, loo))
+lc <- loo_compare(loos)
+lc
+saveRDS(lc, here::here("data-raw", "data", "prev_model_comparison.rds"))
+
+
+# Effects -----------------------------------------------------------------
+# best fitting binomial
+summary(fits[["linear_by_region"]])
+ranef(fits[["linear_by_region"]])
+
+# best fitting beta binomial
+summary(fits[["beta_linear"]])
+
+# Posterior density check -------------------------------------------------
+pp <- lapply(names(fits), function(i) {pp_check(fits[[i]], nsamples = 100)})
+names(pp) <- names(fits)
+plotted <- lapply(names(pp), function(i) {
+              ggsave(paste0(plot_dir, "/pp_", i, ".png"), 
+                     pp[[i]], height = 7, width = 7)
+  })
+             
+             
 # Model diagnostics -------------------------------------------------------
-best_fit <- fits[["linear"]]
+best_fit <- fits[["beta_linear"]]
 
 yhat <- posterior_predict(best_fit)
 colnames(yhat) <- prev$county
@@ -237,7 +266,7 @@ p
 ggsave(paste0(plot_dir, "/posterior_predictions.png"), p, width = 7, height = 7)
 
 # Plot effects ------------------------------------------------------------
-plots <- plot(conditional_effects(best_fit, re_formula = NULL), 
+plots <- plot(conditional_effects(best_fit, re_formula = ~ (1 |region)), 
               rug = TRUE, ask = FALSE)
 
 plotted <- lapply(1:length(plots), function(i){
