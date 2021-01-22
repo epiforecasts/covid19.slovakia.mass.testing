@@ -1,3 +1,4 @@
+# Packages ----------------------------------------------------------------
 library("readxl")
 library("dplyr")
 library("tidyr")
@@ -5,6 +6,7 @@ library("janitor")
 library("brms")
 library("ggplot2")
 
+# Covariate ---------------------------------------------------------------
 unemp <-
   read_excel(here::here("data-raw", "data", "indicators", "MS_2011-1.xlsx"),
              sheet = "Tab1", skip = 9) %>%
@@ -22,7 +24,7 @@ roma <-
 
 income <-
   read_excel(here::here("data-raw", "data", "indicators",
-                        "slovakia_income_k_region.xlsx"),
+                        "slovakia_income_by_region.xlsx"),
              skip = 4) %>%
   clean_names() %>%
   mutate(income = as.integer(sub(",", ".", x2019))) %>%
@@ -30,7 +32,7 @@ income <-
 
 age <-
   read_excel(here::here("data-raw", "data", "indicators",
-                        "slovakia_mean_age_k_district.xlsx"),
+                        "slovakia_mean_age_by_district.xlsx"),
              skip = 5) %>%
   clean_names() %>%
   select(county = x1, mean_age = x2019) %>%
@@ -41,7 +43,7 @@ age <-
 
 pop_dens <-
   read_excel(here::here("data-raw", "data", "indicators",
-                        "slovakia_pop_dens_k_district.xlsx"),
+                        "slovakia_pop_dens_by_district.xlsx"),
              skip = 5) %>%
   clean_names() %>%
   select(county = x1, pop_dens = x2019) %>%
@@ -50,6 +52,8 @@ pop_dens <-
          county = sub(" ", " ", county)) %>%
   mutate(county = recode(county, `Śaľa` = "Šaľa"))
 
+
+# Outcome -----------------------------------------------------------------
 load(here::here("data", "ms.tst.rdata"))
 
 prev <- ms.tst %>%
@@ -80,17 +84,24 @@ prev <- ms.tst %>%
   ungroup() %>%
   pivot_wider()
 
-
+# Fit models --------------------------------------------------------------
 fit <- brm(positive_2 | trials(attendance_2) ~
              pilot + mean_age + pop_dens + unemp_rate + proportion_roma + income + (1 | region),
-           data = prev, family = binomial())
+           data = prev, family = binomial(), control = list(adapt_delta = 0.9))
+fit <- add_criterion(fit, "loo")
 
 spline_fit <- brm(positive_2 | trials(attendance_2) ~  pilot + 
                     s(mean_age, k = 3) + s(pop_dens, k = 3) + s(unemp_rate, k = 3) +
                     s(proportion_roma, k = 3) + s(income, k = 3) + (1 | region),
-                  data = prev, family = binomial())
+                  data = prev, family = binomial(), control = list(adapt_delta = 0.9))
+spline_fit <- add_criterion(spline_fit, "loo") 
 
-yhat <- posterior_predict(fit)
+# Compare fits ------------------------------------------------------------
+loo_compare(fit, spline_fit)
+
+
+# Model diagnostics -------------------------------------------------------
+yhat <- posterior_predict(spline_fit)
 colnames(yhat) <- prev$county
 
 plotpp <- as_tibble(yhat) %>%
@@ -116,3 +127,13 @@ p <- ggplot(plotpp, aes(x = id, y = median)) +
   theme_minimal() +
   theme(axis.text.x = element_blank(),
         axis.ticks.x = element_blank())
+
+# Plot effects ------------------------------------------------------------
+# linear
+plot(conditional_effects(spline_fit, re_formula = NULL), rug = TRUE, ask = FALSE)
+
+# spline
+plot(conditional_effects(spline_fit, re_formula = NULL), rug = TRUE, ask = FALSE)
+
+
+
