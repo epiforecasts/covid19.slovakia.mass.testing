@@ -92,8 +92,12 @@ prev_long %>%
   mutate(prev = positive_2 / attendance_2) %>% 
   ggplot(aes(x = value, y = prev, col = region)) +
   geom_point() +
-  facet_wrap(~name)
+  facet_wrap(~name) +
+  labs(x = "Variable value", y = "Prevalence") +
+  guides(col = guides_legend(title = "Region"))
+  theme_classic()
 
+ggsave(here::here())
 # analysis format
 prev <- prev %>%
   pivot_wider()
@@ -108,22 +112,22 @@ prev %>%
 fits <- list()
 fits[["linear"]] <- brm(positive_2 | trials(attendance_2) ~
                           pilot + mean_age + pop_dens + unemp_rate + proportion_roma + income + (1 | region),
-                        data = prev, family = binomial(), control = list(adapt_delta = 0.9))
+                        data = prev, family = binomial(), control = list(adapt_delta = 0.99))
 
 fits[["linear_by_region"]] <- brm(positive_2 | trials(attendance_2) ~
                                     pilot + mean_age + pop_dens + unemp_rate + proportion_roma + income +
                                     (pilot + mean_age + pop_dens + unemp_rate + proportion_roma | region),
-                        data = prev, family = binomial(), control = list(adapt_delta = 0.9))
+                        data = prev, family = binomial(), control = list(adapt_delta = 0.99, max_treedepth = 15))
 
 
 fits[["spline"]]  <- brm(positive_2 | trials(attendance_2) ~  pilot + 
                            s(mean_age, k = 3) + s(pop_dens, k = 3) + s(unemp_rate, k = 3) +
-                           s(proportion_roma, k = 3) + s(income, k = 3) + region + (1 | county),
-                         data = prev, family = binomial(), control = list(adapt_delta = 0.9))
+                           s(proportion_roma, k = 3) + s(income, k = 3) + ( 1 | region),
+                         data = prev, family = binomial(), control = list(adapt_delta = 0.99))
 
 # Compare fits ------------------------------------------------------------
-fits <- lapply(fits, add_criterion, criterion = "loo")
-loo_compare(fits)
+loos <- lapply(fits, loo)
+loo_compare(loos)
 
 # Model diagnostics -------------------------------------------------------
 best_fit <- fits[["linear"]]
