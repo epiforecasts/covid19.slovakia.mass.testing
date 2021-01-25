@@ -25,14 +25,6 @@ roma <-
            (proportion_roma_upper - proportion_roma_lower) / 2) %>%
   mutate(county = sub("-", " - ", county))
 
-income <-
-  read_excel(here::here("data-raw", "data", "indicators",
-                        "slovakia_income_by_region.xlsx"),
-             skip = 4) %>%
-  clean_names() %>%
-  mutate(income = as.integer(sub(",", ".", x2019))) %>%
-  select(region = x1, income)
-
 age <-
   read_excel(here::here("data-raw", "data", "indicators",
                         "slovakia_mean_age_by_district.xlsx"),
@@ -62,7 +54,7 @@ load(here::here("data", "ms.tst.rdata"))
 # all covariates and outcome
 prev_long <- ms.tst %>%
   mutate(region = if_else(grepl("Košice", county), "Košický kraj", region)) %>%
-  mutate(pilot = !is.na(attendance_1)) %>% 
+  mutate(pilot = !is.na(attendance_1)) %>%
   select(county, region, attendance_2, positive_2, pilot) %>%
   left_join(unemp, by = "county") %>%
   left_join(age, by = "county") %>%
@@ -79,17 +71,16 @@ prev_long <- ms.tst %>%
   ungroup() %>%
   mutate(unemp_rate = unemployed / active) %>%
   left_join(roma, by = "county") %>%
-  left_join(income, by = "region") %>%
   select(county, region, ends_with("_2"), pilot, mean_age, pop_dens, unemp_rate,
-         proportion_roma, income) %>%
+         proportion_roma) %>%
   pivot_longer(c(-county, -region, -attendance_2, -positive_2, -pilot)) %>%
   group_by(name) %>%
   mutate(value = (value - mean(value)) / sd(value)) %>%
   ungroup()
 
 # visual prev vs covariate
-scatter <- prev_long %>% 
-  mutate(prev = positive_2 / attendance_2) %>% 
+scatter <- prev_long %>%
+  mutate(prev = positive_2 / attendance_2) %>%
   ggplot(aes(y = value, x = prev, col = region)) +
   geom_point() +
   facet_wrap(~name, scales = "free_y") +
@@ -98,7 +89,7 @@ scatter <- prev_long %>%
   theme_classic() +
   theme(legend.position = "bottom")
 
-scatter 
+scatter
 
 plot_dir <- here::here("data-raw", "figures")
 if (!dir.exists(plot_dir)) {
@@ -111,8 +102,8 @@ prev <- prev_long %>%
   pivot_wider()
 
 # plot correlations and data relationships
-correlation <- prev %>% 
-  mutate(prev = positive_2 / attendance_2) %>% 
+correlation <- prev %>%
+  mutate(prev = positive_2 / attendance_2) %>%
   select(-county, -region, -attendance_2, -positive_2) %>%
   ggpairs()
 
@@ -144,36 +135,36 @@ priors <- c(prior("exponential(1)", class = "phi"))
 models <- list()
 
 # binomial
-models[["linear"]] <- 
-  as.formula(positive_2 | trials(attendance_2) ~ pilot + mean_age + pop_dens + unemp_rate + 
+models[["linear"]] <-
+  as.formula(positive_2 | trials(attendance_2) ~ pilot + mean_age + pop_dens + unemp_rate +
                proportion_roma + income + (1 | region))
 
 models[["linear_by_region"]] <-
-  as.formula(positive_2 | trials(attendance_2) ~  pilot + mean_age + pop_dens + unemp_rate + 
+  as.formula(positive_2 | trials(attendance_2) ~  pilot + mean_age + pop_dens + unemp_rate +
                proportion_roma + income + (mean_age + pop_dens + unemp_rate + proportion_roma | region))
 
 
-models[["spline"]]  <- 
-  as.formula(positive_2 | trials(attendance_2) ~  pilot + s(mean_age, k = 3) + s(pop_dens, k = 3) + 
+models[["spline"]]  <-
+  as.formula(positive_2 | trials(attendance_2) ~  pilot + s(mean_age, k = 3) + s(pop_dens, k = 3) +
                s(unemp_rate, k = 3) + s(proportion_roma, k = 3) + s(income, k = 3) + (1 | region))
 
 # beta binomial
-models[["beta_linear"]] <- 
-  as.formula(positive_2 | vint(attendance_2) ~ pilot + mean_age + pop_dens + unemp_rate + 
+models[["beta_linear"]] <-
+  as.formula(positive_2 | vint(attendance_2) ~ pilot + mean_age + pop_dens + unemp_rate +
                proportion_roma + income + (1 | region))
 
 models[["beta_linear_by_region"]] <-
-  as.formula(positive_2 | vint(attendance_2) ~  pilot + mean_age + pop_dens + unemp_rate + 
+  as.formula(positive_2 | vint(attendance_2) ~  pilot + mean_age + pop_dens + unemp_rate +
                proportion_roma + income + (mean_age + pop_dens + unemp_rate + proportion_roma | region))
 
 
-models[["beta_spline"]]  <- 
-  as.formula(positive_2 | vint(attendance_2) ~  pilot + s(mean_age, k = 3) + s(pop_dens, k = 3) + 
+models[["beta_spline"]]  <-
+  as.formula(positive_2 | vint(attendance_2) ~  pilot + s(mean_age, k = 3) + s(pop_dens, k = 3) +
                s(unemp_rate, k = 3) + s(proportion_roma, k = 3) + s(income, k = 3) + (1 | region))
 
 # Fit models --------------------------------------------------------------
 
-bin_fits <- lapply(models[!grepl("beta_", names(models))], brm, data = prev, family = binomial(), 
+bin_fits <- lapply(models[!grepl("beta_", names(models))], brm, data = prev, family = binomial(),
                control = list(adapt_delta = 0.99, max_treedepth = 15))
 beta_fits <- lapply(models[grepl("beta_", names(models))], brm, data = prev, family = beta_binomial2, prior = priors,
                control = list(adapt_delta = 0.99, max_treedepth = 15),stanvars = stanvars)
@@ -226,11 +217,11 @@ summary(fits[["beta_linear"]])
 pp <- lapply(names(fits), function(i) {pp_check(fits[[i]], nsamples = 100)})
 names(pp) <- names(fits)
 plotted <- lapply(names(pp), function(i) {
-              ggsave(paste0(plot_dir, "/pp_", i, ".png"), 
+              ggsave(paste0(plot_dir, "/pp_", i, ".png"),
                      pp[[i]], height = 7, width = 7)
   })
-             
-             
+
+
 # Model diagnostics -------------------------------------------------------
 best_fit <- fits[["beta_linear"]]
 
@@ -266,12 +257,10 @@ p
 ggsave(paste0(plot_dir, "/posterior_predictions.png"), p, width = 7, height = 7)
 
 # Plot effects ------------------------------------------------------------
-plots <- plot(conditional_effects(best_fit, re_formula = ~ (1 |region)), 
+plots <- plot(conditional_effects(best_fit, re_formula = ~ (1 |region)),
               rug = TRUE, ask = FALSE)
 
 plotted <- lapply(1:length(plots), function(i){
-  ggsave(paste0(plot_dir, "/conditional_effect_", i, ".png"), 
+  ggsave(paste0(plot_dir, "/conditional_effect_", i, ".png"),
          plots[[i]], height = 7, width = 7)
 })
-
-
