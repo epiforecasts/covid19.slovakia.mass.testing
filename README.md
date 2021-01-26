@@ -109,6 +109,12 @@ To regenerate Fig. S4, run
 mobility()
 ```
 
+To regenerate Fig. S6, run
+
+``` r
+bed_occupancy()
+```
+
 To regenerate Fig. S7, run
 
 ``` r
