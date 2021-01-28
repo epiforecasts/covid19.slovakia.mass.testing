@@ -37,3 +37,12 @@ NULL
 ##' @name prevalence.samples
 ##' @docType data
 NULL
+
+##' Covariates
+##'
+##' Covariates for prevalence: unemployment rate, population in the Marginalised
+##' Roma Community, mean age and population density.
+##'
+##' @name covariates
+##' @docType data
+NULL

@@ -27,7 +27,13 @@ Depends:
     ggplot2,
     scales,
     stringr,
-    epitools
+    epitools,
+    tidybayes,
+    tidyselect,
+    forcats,
+    tibble,
+    rstantools,
+    ggdist
 License: MIT + file LICENSE
 ByteCompile: true
 Encoding: UTF-8

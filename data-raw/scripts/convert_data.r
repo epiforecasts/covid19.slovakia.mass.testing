@@ -5,6 +5,7 @@ library("lubridate")
 library("stringi")
 library("readr")
 library("vroom")
+library("janitor")
 
 ###########################
 # PCR incidence data
@@ -86,3 +87,49 @@ save(Rt.county, file = here::here("data", "R.county.rdata"))
 prevalence.samples <-
   vroom(here::here("data-raw", "data", "rt", "prevalence-samples.csv"))
 save(prevalence.samples, file = here::here("data", "prevalence.samples.rdata"))
+
+## Prevalence covariates
+unemp <-
+  read_excel(here::here("data-raw", "data", "indicators", "MS_2011-1.xlsx"),
+             sheet = "Tab1", skip = 9) %>%
+  clean_names() %>%
+  select(county = x1, active = x12, unemployed = x13)
+
+roma <-
+  read_excel(here::here("data-raw", "data", "indicators",
+                        "Roma Atlas 2019-1.xlsx"),
+             sheet = "RESULTS", skip = 1) %>%
+  clean_names() %>%
+  mutate(proportion_roma =
+           (proportion_roma_upper - proportion_roma_lower) / 2) %>%
+  mutate(county = sub("-", " - ", county))
+
+age <-
+  read_excel(here::here("data-raw", "data", "indicators",
+                        "slovakia_mean_age_by_district.xlsx"),
+             skip = 5) %>%
+  clean_names() %>%
+  select(county = x1, mean_age = x2019) %>%
+  filter(grepl("^District of", county)) %>%
+  mutate(county = sub("District of ", "", county),
+         county = sub(" ", " ", county)) %>%
+  mutate(county = recode(county, `Śaľa` = "Šaľa"))
+
+pop_dens <-
+  read_excel(here::here("data-raw", "data", "indicators",
+                        "slovakia_pop_dens_by_district.xlsx"),
+             skip = 5) %>%
+  clean_names() %>%
+  select(county = x1, pop_dens = x2019) %>%
+  filter(grepl("^District of", county)) %>%
+  mutate(county = sub("District of ", "", county),
+         county = sub(" ", " ", county)) %>%
+  mutate(county = recode(county, `Śaľa` = "Šaľa"))
+
+covariates <- list(unemp = unemp,
+                   roma = roma,
+                   age = age,
+                   pop_dens = pop_dens)
+
+save(covariates, file = here::here("data", "covariates.rdata"))
+

@@ -2,16 +2,17 @@
 % Please edit documentation in R/regression.r
 \name{regression}
 \alias{regression}
-\title{Regression analysis of prevalence reduction}
+\title{Regression analysis of prevalence}
 \usage{
-regression(file = NULL)
+regression(table_file = NULL)
 }
 \arguments{
-\item{file}{a file name to save the table of covariates to, if desired}
+\item{table_file}{(optional) file to save parameter table to}
 }
 \value{
-the result of a \code{glm} call
+a list of two plots (effect size and posterior predicitons) and a
+table of effect size estimates
 }
 \description{
-Regression analysis of prevalence reduction
+Regression analysis of prevalence
 }
