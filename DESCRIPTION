@@ -34,7 +34,9 @@ Depends:
     tibble,
     rstantools,
     ggdist,
-    brms
+    brms,
+    binom,
+    forcats
 License: MIT + file LICENSE
 ByteCompile: true
 Encoding: UTF-8

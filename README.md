@@ -76,12 +76,10 @@ data(mob.slo)
 
 ### Figures and tables
 
-To regenerate Table 1 and the adjusted prevalence risk ratio estimate,
-run
+To regenerate Table 1, run
 
 ``` r
-r <- regression("table1.pdf")
-r$round
+county_table("table1.pdf")
 ```
 
 To regenerate Fig. 1, run
@@ -99,10 +97,28 @@ rr$figures$b
 rr$tables
 ```
 
+To generate Table S1 and estimate the adjusted prevalence ratio, run
+
+``` r
+r <- regression()
+```
+
 To regenerate Fig. S4, run
 
 ``` r
 mobility()
+```
+
+To regenerate Fig. S6, run
+
+``` r
+bed_occupancy()
+```
+
+To regenerate Fig. S7, run
+
+``` r
+prevalence()
 ```
 
 ### Minimum specificity
