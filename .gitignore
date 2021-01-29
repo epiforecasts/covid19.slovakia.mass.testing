@@ -6,3 +6,7 @@ R/.Rhistory
 data-raw/data/rt/samples
 data-raw/data/rt/logs
 data-raw/data/rt/*.png
+data-raw/figures
+.Rproj.user
+data-raw/data/prev-cov-fits.rds
+data-raw/data/prev_model_comparison.rds

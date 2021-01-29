@@ -4,6 +4,7 @@
 ##' @importFrom kableExtra kable add_header_above save_kable
 ##' @param file file name to save the table to (pdf)
 ##' @return NULL (invisibly)
+##' @export
 county_table <- function(file = NULL) {
 
   ms.R <- regression()$covariates
