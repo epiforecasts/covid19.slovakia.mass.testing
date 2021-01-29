@@ -2,7 +2,7 @@
 #' @param table_file (optional) file to save parameter table to
 #' @return a list of two plots (effect size and posterior predicitons) and a
 #' table of effect size estimates
-#' @importFrom dplyr select left_join mutate filter group_by ungroup inner_join bind_rows recode_factor summarise arrange
+#' @importFrom dplyr select left_join mutate filter group_by ungroup inner_join bind_rows recode_factor summarise arrange if_else
 #' @importFrom tidyr pivot_longer pivot_wider separate
 #' @importFrom stats as.formula median quantile
 #' @importFrom brms brm negbinomial
@@ -36,8 +36,8 @@ regression <- function(table_file = NULL) {
                      rename(simple_name = county), by = "simple_name") %>%
     dplyr::select(-xcounty, -simple_name) %>%
     dplyr::mutate(unemp_rate = unemployed / active) %>%
-    dplyr::select(county, region, pop, dplyr::matches("^attendance_[123]"),
-                  dplyr::matches("^positive_[123]"), mean_age,
+    dplyr::select(county, region, pop, tidyselect::matches("^attendance_[123]"),
+                  tidyselect::matches("^positive_[123]"), mean_age,
                   pop_dens, unemp_rate, proportion_roma, R)
 
   ## extract pilot variables
@@ -53,7 +53,7 @@ regression <- function(table_file = NULL) {
     dplyr::ungroup() %>%
     tidyr::pivot_wider() %>%
     dplyr::mutate(`0` = 0, `1` = 1, `2` = 1) %>%
-    tidyr::pivot_longer(dplyr::matches("^[012]"),
+    tidyr::pivot_longer(tidyselect::matches("^[012]"),
                         names_to = "round", values_to = "multiplier") %>%
     dplyr::mutate(round = as.integer(round)) %>%
     tidyr::pivot_longer(c(-county, -round, -multiplier)) %>%
@@ -67,14 +67,14 @@ regression <- function(table_file = NULL) {
     dplyr::mutate(round_attendance_prec = attendance_2 / pop,
                   round_prev_prec = positive_2 / attendance_2,
                   round_R_prec = R) %>%
-    dplyr::select(county, dplyr::starts_with("round_")) %>%
+    dplyr::select(county, tidyselect::starts_with("round_")) %>%
     tidyr::pivot_longer(-county) %>%
     dplyr::group_by(name) %>%
     dplyr::mutate(value = (value - mean(value)) / sd(value)) %>%
     dplyr::ungroup() %>%
     pivot_wider() %>%
     dplyr::mutate(`0` = 0, `1` = 1) %>%
-    tidyr::pivot_longer(dplyr::matches("^[01]"),
+    tidyr::pivot_longer(tidyselect::matches("^[01]"),
                         names_to = "round", values_to = "multiplier") %>%
     dplyr::mutate(round = as.integer(round)) %>%
     tidyr::pivot_longer(c(-county, -round, -multiplier)) %>%
@@ -83,7 +83,7 @@ regression <- function(table_file = NULL) {
     dplyr::select(-multiplier)
 
   prev_long <- prev %>%
-    tidyr::pivot_longer(dplyr::matches("^(positive|attendance)_[123]$")) %>%
+    tidyr::pivot_longer(tidyselect::matches("^(positive|attendance)_[123]$")) %>%
     tidyr::separate(name, c("name", "round"), sep = "_") %>%
     dplyr::select(-R) %>%
     dplyr::filter(!is.na(value)) %>%

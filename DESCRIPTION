@@ -33,7 +33,8 @@ Depends:
     forcats,
     tibble,
     rstantools,
-    ggdist
+    ggdist,
+    brms
 License: MIT + file LICENSE
 ByteCompile: true
 Encoding: UTF-8

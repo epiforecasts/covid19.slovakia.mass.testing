@@ -2,6 +2,7 @@
 ##'
 ##' @param file file name to save the table to (pdf)
 ##' @return NULL (invisibly)
+##' @export
 county_table <- function(file = NULL) {
 
   rr <- risk_ratios()$tables$county
