@@ -67,7 +67,7 @@ risk_ratios <- function() {
     mutate(pRR = epitab(c(attendance_2-positive_2,positive_2,attendance_3-positive_3,positive_3),method = "riskratio")$tab[2,c("riskratio")],
            pRR.lo = epitab(c(attendance_2-positive_2,positive_2,attendance_3-positive_3,positive_3),method = "riskratio")$tab[2,c("lower")],
            pRR.hi = epitab(c(attendance_2-positive_2,positive_2,attendance_3-positive_3,positive_3),method = "riskratio")$tab[2,c("upper")]) %>%
-    select(county, pRR, pRR.lo, pRR.hi) -> pRR_mass
+    select(county, region, pRR, pRR.lo, pRR.hi) -> pRR_mass
   ret_rr[["county"]] <- pRR_mass
 
   ms.tst %>%
