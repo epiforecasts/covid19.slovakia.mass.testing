@@ -224,5 +224,5 @@ regression <- function(table_file = NULL) {
   return(list(plots = list(effects = ep,
                            predictions = pp),
               table = effects,
-              data = prev_long))
+              covariates = prev))
 }

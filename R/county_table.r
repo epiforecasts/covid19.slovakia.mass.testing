@@ -12,8 +12,8 @@ county_table <- function(file = NULL) {
   options(knitr.kable.NA = "")
 
   print_table <- ms.R %>%
-    mutate(pilot_prev = round(pilot_prev * 100, 2),
-           round2_prev = round(round2_prev * 100, 2),
+    mutate(pilot_prev = round(positive_1 / attendance_1 * 100, 2),
+           round2_prev = round(positive_2 / attendance_2 * 100, 2),
            round3_prev = round(positive_3 / attendance_3 * 100, 2),
            R = round(R, 1)) %>%
     select(county, region, pop, R,
