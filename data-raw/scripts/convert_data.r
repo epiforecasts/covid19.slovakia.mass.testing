@@ -21,53 +21,32 @@ save(PCR.inc, file = here::here("data", "PCR.inc.rdata"))
 
 ###############
 # Testing data (prevalence)
+## January update
 ms.tst <- suppressMessages(
-  read_excel(here::here("data-raw", "data", "Plosne testovanie.xlsx"), skip = 1, n_max = 81)) %>%
+  read_excel(here::here("data-raw", "data", "January results master.xlsx"), n_max = 81)) %>%
   janitor::clean_names() %>%
-  rename(pop = x2,
-         attendance_1 = pilot_23_to_25_oct,
-         attendance_prop_1 = x4,
-         positive_1 = x5,
-         positive_prop_1 = x6,
-         se_1 = x7,
-         min_1 = x8,
-         max_1 = x9,
-         attendance_2 = first_round_31_oct_and_1_nov,
-         attendance_prop_2 = x11,
-         positive_2 = x12,
-         positive_prop_2 = x13,
-         se_2 = x14,
-         min_2 = x15,
-         max_2 = x16,
-         growth_min_2 = x17,
-         growth_max_2 = x18,
-         R_min_2 = x19,
-         R_max_2 = x20,
-         attendance_3 = second_round_7_and_8_nov,
-         attendance_prop_3 = x22,
-         positive_3 = x23,
-         positive_prop_3 = x24,
-         se_3 = x25,
-         min_3 = x26,
-         max_3 = x27,
-         growth_min_3 = x28,
-         growth_max_3 = x29,
-         R_min_3 = x30,
-         R_max_3 = x31) %>%
+  rename(pop = population,
+         attendance_1 = jan1_turnout_n,
+         attendance_prop_1 = jan1_turnout_percent,
+         positive_1 = jan1_poz,
+         positive_prop_1 = jan1_tpr,
+         attendance_2 = jan2_turnout_n,
+         attendance_prop_2 = jan2_turnout_percent,
+         positive_2 = jan2_poz,
+         positive_prop_2 = jan2_tpr) %>%
   filter(!is.na(county)) %>%
-  mutate_at(vars(-county), as.numeric) %>%
+  mutate_at(vars(-county, -code), as.numeric) %>%
   filter(!is.na(pop)) %>%
-  mutate(pilot = !is.na(attendance_1)) %>%
   left_join(PCR.inc[!duplicated(PCR.inc$county),c("county","region")],by="county") %>%
   mutate(region = ifelse(str_sub(county,start=1,end=10)=="Bratislava","Bratislavský kraj",region)) %>%
-  mutate(region = ifelse(str_sub(county,start=1,end=6)=="Kosice","Kosický kraj",region))
+  mutate(region = ifelse(str_sub(county,start=1,end=6)=="Kosice","Kosický kraj",region)) %>%
+  select(county, code, pop, region, starts_with("attendance_"), starts_with("positive_"))
 save(ms.tst, file = here::here("data", "ms.tst.rdata"))
 
 ## Google mobility data
 read_csv("https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv") %>%
   filter(country_region == "Slovakia",
-         date > ymd("2020-01-01"),
-         date < ymd("2020-11-20"),
+         date > ymd("2020-10-01"),
          !is.na(sub_region_1)) -> mob.slo
 save(mob.slo, file = here::here("data", "mob.slo.rdata"))
 

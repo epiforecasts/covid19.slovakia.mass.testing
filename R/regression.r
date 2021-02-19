@@ -21,20 +21,33 @@ regression <- function(table_file = NULL) {
   pop_dens <- covariates$pop_dens
   roma <- covariates$roma
 
+  unemp <- unemp %>%
+    dplyr::mutate(county = sub(" [IV]+$",  "", county)) %>%
+    group_by(county) %>%
+    summarise_all(sum)
+
+  age <- age %>%
+    dplyr::mutate(county = sub(" [IV]+$",  "", county)) %>%
+    group_by(county) %>%
+    summarise_all(mean)
+
+  pop_dens <- pop_dens %>%
+    dplyr::mutate(county = sub(" [IV]+$",  "", county)) %>%
+    group_by(county) %>%
+    summarise_all(mean)
+
   ## all covariates and outcome
   prev <- ms.tst %>%
     dplyr::select(county, region, pop, dplyr::starts_with("attendance_"),
-                  dplyr::starts_with("positive_"), pilot) %>%
+                  dplyr::starts_with("positive_")) %>%
     dplyr::left_join(unemp, by = "county") %>%
     dplyr::left_join(age, by = "county") %>%
     dplyr::left_join(pop_dens, by = "county") %>%
-    dplyr::mutate(xcounty = sub(" [IV]+$",  "", county)) %>%
-    dplyr::left_join(roma %>% select(xcounty = county, proportion_roma),
-              by = "xcounty") %>%
+    dplyr::left_join(roma %>% select(county, proportion_roma), by = "county") %>%
     simplify_names() %>%
     dplyr::left_join(Rt.county %>%
                      rename(simple_name = county), by = "simple_name") %>%
-    dplyr::select(-xcounty, -simple_name) %>%
+    dplyr::select(-simple_name) %>%
     dplyr::mutate(unemp_rate = unemployed / active) %>%
     dplyr::select(county, region, pop, tidyselect::matches("^attendance_[123]"),
                   tidyselect::matches("^positive_[123]"), mean_age,
@@ -52,7 +65,7 @@ regression <- function(table_file = NULL) {
     dplyr::mutate(value = (value - mean(value)) / sd(value)) %>%
     dplyr::ungroup() %>%
     tidyr::pivot_wider() %>%
-    dplyr::mutate(`0` = 0, `1` = 1, `2` = 1) %>%
+    dplyr::mutate(`0` = 0, `1` = 1) %>%
     tidyr::pivot_longer(tidyselect::matches("^[012]"),
                         names_to = "round", values_to = "multiplier") %>%
     dplyr::mutate(round = as.integer(round)) %>%
@@ -112,7 +125,7 @@ regression <- function(table_file = NULL) {
     stats::as.formula(positive ~
                         1 + (1 | county) + round + mean_age + pop_dens +
                         unemp_rate + proportion_roma + round_attendance_prec +
-                        round_prev_prec + round_R_prec +
+                        round_prev_prec +
                         offset(log(attendance)))
 
   ## Fit model --------------------------------------------------------------

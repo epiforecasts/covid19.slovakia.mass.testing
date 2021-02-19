@@ -12,18 +12,12 @@ risk_ratios <- function() {
   ret_rr <- list()
 
   ms.tst %>%
-    filter(pilot == T) %>%
+    filter(!is.na(attendance_2)) %>%
     rowwise() %>%
     mutate(pRR_12 = epitab(c(attendance_1-positive_1,positive_1,attendance_2-positive_2,positive_2),method = "riskratio")$tab[2,c("riskratio")],
            pRR.lo_12 = epitab(c(attendance_1-positive_1,positive_1,attendance_2-positive_2,positive_2),method = "riskratio")$tab[2,c("lower")],
-           pRR.hi_12 = epitab(c(attendance_1-positive_1,positive_1,attendance_2-positive_2,positive_2),method = "riskratio")$tab[2,c("upper")],
-           pRR_23 = epitab(c(attendance_2-positive_2,positive_2,attendance_3-positive_3,positive_3),method = "riskratio")$tab[2,c("riskratio")],
-           pRR.lo_23 = epitab(c(attendance_2-positive_2,positive_2,attendance_3-positive_3,positive_3),method = "riskratio")$tab[2,c("lower")],
-           pRR.hi_23 = epitab(c(attendance_2-positive_2,positive_2,attendance_3-positive_3,positive_3),method = "riskratio")$tab[2,c("upper")],
-           pRR_13 = epitab(c(attendance_1-positive_1,positive_1,attendance_3-positive_3,positive_3),method = "riskratio")$tab[2,c("riskratio")],
-           pRR.lo_13 = epitab(c(attendance_1-positive_1,positive_1,attendance_3-positive_3,positive_3),method = "riskratio")$tab[2,c("lower")],
-           pRR.hi_13 = epitab(c(attendance_1-positive_1,positive_1,attendance_3-positive_3,positive_3),method = "riskratio")$tab[2,c("upper")]) %>%
-    select(county, pRR_12, pRR.lo_12, pRR.hi_12, pRR_23, pRR.lo_23, pRR.hi_23, pRR_13, pRR.lo_13, pRR.hi_13) -> pRR_pilot
+           pRR.hi_12 = epitab(c(attendance_1-positive_1,positive_1,attendance_2-positive_2,positive_2),method = "riskratio")$tab[2,c("upper")]) %>%
+    select(county, pRR_12, pRR.lo_12, pRR.hi_12) -> pRR_pilot
 
   ret_fig[["b"]] <- pRR_pilot %>%
     pivot_longer(c(-county)) %>%
