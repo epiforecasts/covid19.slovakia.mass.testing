@@ -85,15 +85,17 @@ county_table("table1.pdf")
 To regenerate Fig. 1, run
 
 ``` r
-pcr_incidence()
+p <- pcr_incidence()
+ggsave(here::here("figures", "fig1.pdf"), p, width = 7, height = 3)
 ```
 
 To regenerate Fig. 2, run
 
 ``` r
 rr <- risk_ratios()
-rr$figures$a
-rr$figures$b
+
+ggsave(here::here("figures", "fig2a.pdf"), rr$figures$a, width = 7.5, height = 7)
+ggsave(here::here("figures", "fig2b.pdf"), rr$figures$b, width = 7, height = 4)
 rr$tables
 ```
 
@@ -106,7 +108,7 @@ r <- regression()
 To regenerate Fig. S4, run
 
 ``` r
-mobility()
+p <- mobility()
 ```
 
 To regenerate Fig. S6, run
