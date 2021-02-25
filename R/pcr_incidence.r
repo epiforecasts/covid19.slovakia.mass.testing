@@ -36,7 +36,7 @@ pcr_incidence <- function() {
     geom_vline(xintercept = as.POSIXct(dmy("07/11/2020")), alpha=0.4, color = "#2F5597", lwd = 1.3) +
     geom_vline(xintercept = as.POSIXct(dmy("08/11/2020")), alpha=0.4, color = "#2F5597", lwd = 1.3) +
     facet_wrap(pilot~., scale = "free_y") +
-    ylab("SARS-CoV-2 incidence") + xlab("date of report") +
+    ylab("SARS-CoV-2 incidence") + xlab("Date of report") +
     xlim(as.POSIXct(dmy("01/9/2020")),as.POSIXct(dmy("10/11/2020"))) +
     theme_classic()
 }
