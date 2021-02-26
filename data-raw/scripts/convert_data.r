@@ -60,7 +60,7 @@ ms.tst <- suppressMessages(
   mutate(pilot = !is.na(attendance_1)) %>%
   left_join(PCR.inc[!duplicated(PCR.inc$county),c("county","region")],by="county") %>%
   mutate(region = ifelse(str_sub(county,start=1,end=10)=="Bratislava","Bratislavský kraj",region)) %>%
-  mutate(region = ifelse(str_sub(county,start=1,end=6)=="Kosice","Kosický kraj",region))
+  mutate(region = ifelse(str_sub(county,start=1,end=6)=="Košice","Košický kraj",region))
 save(ms.tst, file = here::here("data", "ms.tst.rdata"))
 
 ## Google mobility data
