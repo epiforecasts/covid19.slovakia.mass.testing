@@ -6,6 +6,7 @@
 ##' @importFrom dplyr filter
 ##' @importFrom tibble tibble
 ##' @importFrom ggplot2 ggplot aes geom_col theme_minimal
+##' @export
 bed_occupancy <- function() {
   truncated_occupancy <- slovakia_bed_occupancy %>%
     filter(date >= "2020-09-01")

@@ -98,6 +98,8 @@ ggsave(here::here("figures", "fig2a.pdf"), rr$figures$a,
        width = 7.5, height = 7, device = cairo_pdf)
 ggsave(here::here("figures", "fig2b.pdf"), rr$figures$b,
        width = 7, height = 4, device = cairo_pdf)
+ggsave(here::here("figures", "fig2c.pdf"), rr$figures$c,
+       width = 7, height = 4, device = cairo_pdf)
 rr$tables
 ```
 
