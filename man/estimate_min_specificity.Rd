@@ -8,8 +8,11 @@ Slovakia}
 estimate_min_specificity(cutoff = 0.95)
 }
 \arguments{
-\item{cutoff}{probability cut-off, i.e. x if minimal specificty is to be
+\item{cutoff}{probability cut-off, i.e. x if minimal specificity is to be
 estabilshed with probability >= x}
+}
+\value{
+list with the "estimate" (relating to given cut-off) and "figure" of the distribution of positive tests
 }
 \description{
 Estimate minimum specificity of the antigen test used for mass testing in

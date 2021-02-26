@@ -21,7 +21,7 @@ bed_occupancy <- function() {
               mapping = aes(xmin = xmin, xmax = xmax,
                             ymin = ymin, ymax = ymax),
               alpha = 0.35) +
-    theme_minimal() +
+    theme_classic() +
     xlab("") + ylab("Beds occupied with COVID-19 patients")
   return(p)
 }

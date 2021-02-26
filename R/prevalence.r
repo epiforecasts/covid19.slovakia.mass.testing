@@ -21,7 +21,7 @@ prevalence <- function() {
     geom_point() +
     geom_hline(yintercept = 0.007, lty = "dashed") +
     xlab("") +
-    ylab("proportion of positive tests\nin the first round of mass testing") +
+    ylab("Proportion of tests positive\nin the first round of mass testing") +
     coord_flip() +
     theme_classic() +
     scale_colour_manual("Round 2", values = c("red", "black"))

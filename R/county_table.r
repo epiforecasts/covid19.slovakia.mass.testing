@@ -2,6 +2,7 @@
 ##'
 ##' @importFrom dplyr mutate select arrange
 ##' @importFrom kableExtra kable add_header_above save_kable
+##' @importFrom tools file_ext
 ##' @param file file name to save the table to (pdf)
 ##' @return NULL (invisibly)
 ##' @export
@@ -27,11 +28,17 @@ county_table <- function(file = NULL) {
       c("County", "Region", "Population", "R",
         rep(c("Positive", "Attendance", "%"), times = 3))
 
+    if (file_ext(file) == "pdf") {
+      format <- "latex"
+    } else if (file_ext(file) == "html") {
+      format <- "html"
+    }
+
     k <- kable(print_table,
-               format = "latex",
+               format = format,
                col.names = col.names,
-               align = c('l|', 'l|', 'r|', 'r|', rep('r', 3), '|r',
-                         rep('r', 2), '|r', rep('r', 2)),
+               align = c('l', 'l', 'r', 'r', rep('r', 3), 'r',
+                         rep('r', 2), 'r', rep('r', 2)),
                booktabs = TRUE)
 
     k <-

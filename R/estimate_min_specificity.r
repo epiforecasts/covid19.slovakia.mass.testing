@@ -6,16 +6,20 @@
 ##' @importFrom tidyr pivot_longer separate pivot_wider expand_grid nest unnest
 ##' @importFrom purrr map
 ##' @export
-##' @param cutoff probability cut-off, i.e. x if minimal specificty is to be
+##' @param cutoff probability cut-off, i.e. x if minimal specificity is to be
 ##' estabilshed with probability >= x
+##' @return list with the "estimate" (relating to given cut-off) and "figure" of the distribution of positive tests
 estimate_min_specificity <- function(cutoff = 0.95) {
-  ms.tst %>%
+  dta <- ms.tst %>%
     select(county, attendance_1, attendance_2, attendance_3,
            positive_1, positive_2, positive_3) %>%
     pivot_longer(-county) %>%
     separate("name", c("name", "round"),"_") %>%
     pivot_wider() %>%
-    filter(!is.na(attendance)) -> dta
+    filter(!is.na(attendance)) %>%
+    mutate(round = paste("Round", as.integer(round) - 1),
+           round = if_else(round == "Round 0", "Pilot", round),
+           prop_positive = positive / attendance)
 
   N <- 100
   samples <- 100
@@ -35,5 +39,10 @@ estimate_min_specificity <- function(cutoff = 0.95) {
     summarise(min_spec = max(specificity)) %>%
     .$min_spec
 
-  return(spec)
+  p <- ggplot(dta, aes(x = round, y = prop_positive)) +
+    geom_jitter(position = position_jitter(0.2), alpha = 0.5, pch = 16) +
+    xlab("") + ylab("Proportion of tests positive") +
+    theme_classic()
+
+  return(list(estimate = spec, figure = p))
 }

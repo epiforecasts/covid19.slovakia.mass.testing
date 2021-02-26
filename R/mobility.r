@@ -19,12 +19,15 @@ mobility <- function() {
            'Parks' = parks_percent_change_from_baseline,
            'Transit stations' = transit_stations_percent_change_from_baseline,
            'Workplaces' = workplaces_percent_change_from_baseline,
-           'Resitential' = residential_percent_change_from_baseline) %>%
+           'Residential' = residential_percent_change_from_baseline) %>%
     pivot_longer(-date, values_to = "value", names_to = "Location") %>%
+    group_by(date, Location) %>%
+    summarise(value = mean(value, na.rm = TRUE), .groups = "drop") %>%
     mutate(date = ymd(date)) %>%
     ggplot(aes(x=date, y=value, group=Location)) +
     geom_line() +
     facet_wrap(~Location, scale="free") +
-    ylab("percent change from baseline") +
+    xlab("") +
+    ylab("Percent change from baseline") +
     theme_classic()
 }

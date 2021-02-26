@@ -14,6 +14,7 @@
 #' @importFrom tidyselect starts_with matches
 #' @importFrom tibble as_tibble
 #' @importFrom kableExtra kable save_kable
+#' @importFrom tools file_ext
 #' @export
 regression <- function(table_file = NULL) {
   unemp <- covariates$unemp
@@ -206,15 +207,23 @@ regression <- function(table_file = NULL) {
     ggplot2::scale_y_log10()
 
   if (!is.null(table_file)) {
+    align <- c("l|", "r", "r", "r")
+    if (file_ext(table_file) == "pdf") {
+      format <- "latex"
+    } else if (file_ext(table_file) == "html") {
+      format <- "html"
+      align <- sub("\\|", "", align)
+    }
     col.names <- c("Variable", "Lower 95%", "Median", "Upper 95%")
     k <- kableExtra::kable(effects %>%
                            dplyr::filter(.width == 0.95) %>%
                            dplyr::select(variable, lower, median, upper) %>%
+                           dplyr::mutate_if(is.numeric, exp) %>%
                            dplyr::mutate_if(is.numeric, signif, digits = 2) %>%
                            dplyr::mutate_if(is.numeric, as.character),
-                           format = "latex",
+                           format = format,
                            col.names = col.names,
-                           align = c("l|", "r", "r", "r"),
+                           align = align,
                            booktabs = FALSE)
 
     kableExtra::save_kable(k, table_file)
