@@ -36,7 +36,8 @@ Depends:
     ggdist,
     brms,
     binom,
-    forcats
+    forcats,
+    sf
 License: MIT + file LICENSE
 ByteCompile: true
 Encoding: UTF-8
@@ -44,3 +45,4 @@ LazyData: true
 URL: https://github.com/sbfnk/covid19.slovakia.mass.testing
 BugReports: https://github.com/sbfnk/covid19.slovakia.mass.testing/issues
 RoxygenNote: 7.1.1
+Imports: 

@@ -5,6 +5,7 @@
 ##' @importFrom dplyr select mutate
 ##' @importFrom ggplot2 ggplot geom_linerange geom_point geom_hline xlab ylab coord_flip theme_classic scale_colour_manual
 ##' @importFrom forcats fct_reorder
+##' @export
 prevalence <- function() {
   ms.tst %>%
     mutate(round_2 =

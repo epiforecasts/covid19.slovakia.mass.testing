@@ -86,6 +86,7 @@ To regenerate Fig. 2, run
 rr <- risk_ratios()
 rr$figures$a
 rr$figures$b
+rr$figures$c
 rr$tables
 ```
 
