@@ -6,6 +6,7 @@ library("stringi")
 library("readr")
 library("vroom")
 library("janitor")
+library("sf")
 
 ###########################
 # PCR incidence data
@@ -60,7 +61,7 @@ ms.tst <- suppressMessages(
   mutate(pilot = !is.na(attendance_1)) %>%
   left_join(PCR.inc[!duplicated(PCR.inc$county),c("county","region")],by="county") %>%
   mutate(region = ifelse(str_sub(county,start=1,end=10)=="Bratislava","Bratislavský kraj",region)) %>%
-  mutate(region = ifelse(str_sub(county,start=1,end=6)=="Košice","Košický kraj",region))
+  mutate(region = ifelse(str_sub(county,start=1,end=6)=="Kosice","Kosický kraj",region))
 save(ms.tst, file = here::here("data", "ms.tst.rdata"))
 
 ## Google mobility data
@@ -133,3 +134,12 @@ covariates <- list(unemp = unemp,
 
 save(covariates, file = here::here("data", "covariates.rdata"))
 
+slovakia_shape <-
+  st_read(here::here("data-raw", "data", "USJ_hranice_2.gpkg"))
+st_crs(slovakia_shape) <- 4326 ## fix GDAL version mismatch
+slovakia_shape <- slovakia_shape %>%
+  group_by(county = LAU1) %>%
+  summarise(geometry = st_union(Shape)) %>%
+  ungroup()
+
+save(slovakia_shape, file = here::here("data", "slovakia_shape.rdata"))

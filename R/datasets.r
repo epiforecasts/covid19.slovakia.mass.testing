@@ -46,3 +46,12 @@ NULL
 ##' @name covariates
 ##' @docType data
 NULL
+
+##' Shapes
+##'
+##' Polygons for counties in Slovakia. Available from the National Land Registry
+##' at https://www.geoportal.sk/sk/zbgis_smd/na-stiahnutie/
+##'
+##' @name slovakia_shape
+##' @docType data
+NULL

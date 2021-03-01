@@ -104,14 +104,28 @@ risk_ratios <- function() {
     theme_classic() +
     theme(legend.position = c(.15,.85))
 
-  ret_fig[["c"]] <- ggplot(slovakia_shape)+geom_sf(aes(fill = value.y), size=0.1)+facet_wrap(
-    factor(testround, c("positive_prop_2", "positive_prop_3"), c("First round", "Second round"))~., ncol = 1
-  )+theme_minimal()+scale_fill_gradient(
-    "% Test positive", low = "#fff4f3", high = "#a00500", na.value="#EEEEEE", guide = "colourbar",
-    breaks=seq(0, 0.04, 0.01), limits=c(0, 0.04), labels = scales::percent_format(accuracy = 1)
-  )+theme(panel.grid = element_blank(), axis.text = element_blank(), axis.ticks = element_blank(),
-    legend.position = c(0.8, 0.01), strip.text = element_text(size = 12, hjust = 0.1, vjust=0)
-  )+guides(fill = guide_colorbar(title.hjust = 0.3, title.position = "top", barwidth = 12, direction = "horizontal"))
+  ms.tst.long <- ms.tst %>%
+    select(county, matches("^positive_prop_[23]")) %>%
+    pivot_longer(-county, names_to = "testround")
+
+  sk_shape_tst <- slovakia_shape %>%
+    inner_join(ms.tst.long, by = "county")
+
+  ret_fig[["c"]] <- ggplot(sk_shape_tst) +
+    geom_sf(aes(fill = value), size=0) +
+    facet_wrap(factor(testround,
+                      c("positive_prop_2", "positive_prop_3"),
+                      c("First round", "Second round"))~., ncol = 1) +
+    theme_minimal() +
+    scale_fill_gradient("% Test positive", low = "#fff4f3", high = "#a00500",
+                        na.value = "#EEEEEE", guide = "colourbar",
+                        breaks = seq(0, 0.04, 0.01), limits = c(0, 0.04),
+                        labels = scales::percent_format(accuracy = 1)) +
+    theme(panel.grid = element_blank(), axis.text = element_blank(),
+          axis.ticks = element_blank(), legend.position = c(0.8, 0.01),
+          strip.text = element_text(size = 12, hjust = 0.1, vjust = 0)) +
+    guides(fill = guide_colorbar(title.hjust = 0.3, title.position = "top",
+                                 barwidth = 12, direction = "horizontal"))
 
   return(list(figures = ret_fig, tables = ret_rr))
 }
