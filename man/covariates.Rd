@@ -6,5 +6,11 @@
 \title{Covariates}
 \description{
 Covariates for prevalence: unemployment rate, population in the Marginalised
-Roma Community, mean age and population density.
+Roma Community, mean age and population density. Data on unemployment rate
+was downloaded from the Slovak Department for Work and Pensions at
+https://www.upsvr.gov.sk/statistiky/nezamestnanost-mesacne-statistiky/2020.html?page_id=971502
+Data on the population in the Marginalised Roma community was downloaded
+from the Roma Atlas at https://www.minv.sk/?atlas-romskych-komunit-2019
+Data on mean age and population density were downloaded from the Statistical
+Office of the Slovak Republic at https://slovak.statistics.sk/
 }
